@@ -1,0 +1,117 @@
+﻿// --- Variables
+$shell-canvas-background-color: #202020;
+$title-bar-background-color: #282828;
+$status-bar-background-color: #007acc;
+$source-panel-background-color: #383838;
+$preview-panel-background-color: #606060;
+$sizer-background-color: #0000f0;
+$tab-bar-background-color: #007acc;
+$source-file-background-color: #202020;
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    font-family: -apple-system, BlinkMacSystemFont, Segoe WPC, Segoe UI, HelveticaNeue-Light, Ubuntu, Droid Sans, sans-serif;
+    overflow: hidden;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+// ============================================================================
+// Component specific styles
+// ============================================================================
+.app-container-component {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    height: 100%;
+    background-color: $shell-canvas-background-color;
+}
+
+.title-bar-component {
+    display: flex;
+    flex-shrink: 0;
+    height: 30px;
+    color: white;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: start;
+    background-color: $title-bar-background-color;
+}
+
+.main-panel-component {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    flex-shrink: 1;
+    height: 100%;
+    width: 100%;
+}
+
+.source-panel-component {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 1;
+    height: 100%;
+    width: 50%;
+    background-color: $source-panel-background-color;
+}
+
+.tab-bar-component {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 0;
+    flex-shrink: 1;
+    height: 36px;
+    width: 100%;
+    background-color: $tab-bar-background-color;
+}
+
+.source-file-component {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 1;
+    height: 100%;
+    width: 100%;
+    background-color: $source-file-background-color;
+}
+
+
+.preview-panel-component {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 1;
+    height: 100%;
+    width: 50%;
+    background-color: $preview-panel-background-color;
+}
+
+.sizer-component {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 1;
+    height: 100%;
+    width: 6px;
+    cursor: ew-resize;
+    background-color: $sizer-background-color;
+}
+
+
+.status-bar-component {
+    display: flex;
+    flex-shrink: 0;
+    height: 24px;
+    color: white;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8em;
+    background-color: $status-bar-background-color;
+}
