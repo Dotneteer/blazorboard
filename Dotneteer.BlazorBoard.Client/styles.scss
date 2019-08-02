@@ -1,6 +1,7 @@
 ﻿// --- Variables
 $shell-canvas-background-color: #202020;
 $title-bar-background-color: #282828;
+$title-color: #f89406;
 $status-bar-background-color: #007acc;
 $source-panel-background-color: #383838;
 $preview-panel-background-color: #606060;
@@ -34,12 +35,26 @@ html, body {
 .title-bar-component {
     display: flex;
     flex-shrink: 0;
-    height: 30px;
     color: white;
     box-sizing: border-box;
-    align-items: center;
+    align-items: start;
     justify-content: start;
+    padding: 8px 12px;
     background-color: $title-bar-background-color;
+
+    & h1 {
+        margin: -4px 0 0 0;
+        font-size: 1.6em;
+        color: $title-color;
+    }
+
+    & p {
+        margin: 6px 12px 0 0;
+
+        &.extra-left {
+            margin-left: 16px;
+        }
+    }
 }
 
 .main-panel-component {
@@ -115,3 +130,7 @@ html, body {
     font-size: 0.8em;
     background-color: $status-bar-background-color;
 }
+
+// ============================================================================
+// Control specific styles
+// ============================================================================

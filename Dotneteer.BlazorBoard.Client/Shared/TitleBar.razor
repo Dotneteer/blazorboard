@@ -1,9 +1,33 @@
 ﻿<div class="title-bar-component">
-    <p>@Title</p>
-    <ComboBox></ComboBox>
-    <ComboBox></ComboBox>
+    <h1>Blazor Board</h1>
+    <RadzenDropDown
+        Placeholder="Select Demo..." 
+        Data="@Customers" 
+        TextProperty="DisplayName"
+        ValueProperty="Id" 
+        Style="margin-left: 16px; width: 400px" />
+    <RadzenDropDown 
+        Placeholder="Scenario..."
+        Data="@Customers"
+        TextProperty="DisplayName"
+        ValueProperty="Id"
+        Style="margin-left: 16px; width: 200px" />
 </div>
 
 @code {
-    public string Title { get; set; } = "Title Bar";
+
+    List<ComboDataItem> Customers;
+
+        protected override void OnInit()
+    {
+        Customers = new List<ComboDataItem>
+        {
+            new ComboDataItem("opt1", "Option #1"),
+            new ComboDataItem("opt2", "Option #2"),
+            new ComboDataItem("opt3", "Option #3"),
+            new ComboDataItem("opt4", "Option #4"),
+            new ComboDataItem("opt5", "Option #5")
+        };
+    }
+
 }

@@ -18,12 +18,20 @@ html, body {
 .title-bar-component {
   display: flex;
   flex-shrink: 0;
-  height: 30px;
   color: white;
   box-sizing: border-box;
-  align-items: center;
+  align-items: start;
   justify-content: start;
+  padding: 8px 12px;
   background-color: #282828; }
+  .title-bar-component h1 {
+    margin: -4px 0 0 0;
+    font-size: 1.6em;
+    color: #f89406; }
+  .title-bar-component p {
+    margin: 6px 12px 0 0; }
+    .title-bar-component p.extra-left {
+      margin-left: 16px; }
 
 .main-panel-component {
   display: flex;
