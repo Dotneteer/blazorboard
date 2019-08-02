@@ -5,12 +5,19 @@
     <meta name="viewport" content="width=device-width" />
     <title>Blazor Board</title>
     <base href="/" />
+    <link rel="stylesheet" data-name="vs/editor/editor.main" href="monaco-editor/min/vs/editor/editor.main.css">
     <link href="css/radzen.css" rel="stylesheet" />
     <link href="css/styles.css" rel="stylesheet" />
 </head>
 <body>
     <app>Loading...</app>
 
+    <script>var require = { paths: { 'vs': 'monaco-editor/min/vs' } };</script>
+    <script src="monaco-editor/min/vs/loader.js"></script>
+    <script src="monaco-editor/min/vs/editor/editor.main.nls.js"></script>
+    <script src="monaco-editor/min/vs/editor/editor.main.js"></script>
+
     <script src="_framework/blazor.webassembly.js"></script>
+    <script src="interop/monaco-editor-interop.js"></script>
 </body>
 </html>

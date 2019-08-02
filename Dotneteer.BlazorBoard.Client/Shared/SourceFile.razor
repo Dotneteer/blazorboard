@@ -1,7 +1,28 @@
-﻿<div class="source-file-component">
-    <p>@Title</p>
+﻿@inject IJSRuntime JSRuntime
+
+<div class="source-file-component" id="@EditorModel.Id">
 </div>
 
 @code {
-    public string Title { get; set; } = "Source File";
+    bool _alreadyRendered = false;
+
+    EditorModel EditorModel;
+
+    protected override void OnInit()
+    {
+        EditorModel = new EditorModel
+        {
+            Script = "// This is a comment",
+            Language = "csharp"
+        };
+    }
+
+    protected override async void OnAfterRender()
+    {
+        if (!_alreadyRendered)
+        {
+            await JSRuntime.InvokeAsync<object>("BlazorBoardExtensions.editorInitialize", EditorModel);
+            _alreadyRendered = true;
+        }
+    }
 }
