@@ -1,0 +1,45 @@
+﻿$splitter-background-color: #282828;
+$splitter-size: 6px;
+$splitter-handle-background-color: #404040;
+$splitter-handle-size: 64px;
+
+.splitter-control {
+    display: flex;
+    flex-shrink: 0;
+    background-color: $splitter-background-color;
+
+    &.horizontal {
+        flex-direction: row;
+        width: $splitter-size;
+        height: 100%;
+    }
+
+    &.cursor-horizontal {
+        cursor: ew-resize;
+    }
+
+    &.vertical {
+        flex-direction: column;
+        height: $splitter-size;
+    }
+
+    &.cursor-vertical {
+        cursor: ns-resize;
+    }
+
+    & .handle {
+        justify-content: center;
+        align-self: center;
+        background-color: $splitter-handle-background-color;
+
+        &.handle-horizontal {
+            width: $splitter-size;
+            height: $splitter-handle-size;
+        }
+
+        &.handle-vertical {
+            height: $splitter-size;
+            width: $splitter-handle-size;
+        }
+    }
+}

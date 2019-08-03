@@ -4,8 +4,7 @@
     const blazorEditors = [];
 
     const extensionObject = {
-        hello: () => { console.log("Hello"); },
-
+        // --- Monaco editor interop methods
         editorInitialize: (editorModel) => {
             console.log(`Registering new editor ${editorModel.id}...`);
             let thisEditor = monaco.editor.create(document.getElementById(editorModel.id), {
@@ -24,6 +23,33 @@
                 console.debug(`Registered new editor ${editorModel.id}`);
                 blazorEditors.push({ id: editorModel.id, editor: thisEditor });
             }
+        },
+
+        // --- Pointer interop methods
+        setPointerCapture: (element, pointerId) => {
+            if (element) {
+                element.setPointerCapture(pointerId);
+                return true;
+            } else {
+                return false;
+            }
+        },
+
+        releasePointerCapture: function (element, pointerId) {
+            if (element) {
+                element.releasePointerCapture(pointerId);
+                return true;
+            } else {
+                return false;
+            }
+        },
+
+        // --- Element dimensions interop
+        getElementDimensions: (element) => {
+            return {
+                width: element.offsetWidth,
+                height: element.offsetHeight
+            };
         }
     };
 

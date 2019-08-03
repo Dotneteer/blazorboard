@@ -1,10 +1,44 @@
-﻿<div class="main-panel-component">
-    <SourcePanel></SourcePanel>
-    <Sizer/>
-    <PreviewPanel></PreviewPanel>
+﻿@inject IJSRuntime JSRuntime
+
+<div @ref="Element" class="main-panel-component">
+    <SourcePanel @ref="@sourcePanel" Width="@SourcePanelWidth" />
+    <Splitter Horizontal="true"
+        StartSizing="OnStartSizing"
+        Sizing="OnSizing"
+    />
+    <PreviewPanel Width="@PreviewPanelWidth" />
 </div>
 
 @code 
 {
+    string SourcePanelWidth = "50%";
+    string PreviewPanelWidth = "50%";
 
+    SourcePanel sourcePanel;
+    ElementRef Element;
+
+    double _mainPanelSize;
+    double _sourcePanelStartSize;
+
+    private async Task OnStartSizing()
+    {
+        var sourceDims = await JSRuntime.InvokeAsync<ElementDim>(
+            "BlazorBoardExtensions.getElementDimensions",
+            sourcePanel.Element);
+        _sourcePanelStartSize = sourceDims.Width;
+        var mainDims = await JSRuntime.InvokeAsync<ElementDim>(
+            "BlazorBoardExtensions.getElementDimensions",
+            Element);
+        _mainPanelSize = mainDims.Width;
+    }
+
+    private void OnSizing(double delta)
+    {
+        var newSourcePanelSize = _sourcePanelStartSize + delta;
+        var newPreviewPanelSize = _mainPanelSize - newSourcePanelSize - 6;
+        if (newSourcePanelSize < 100 || newPreviewPanelSize < 100) return;
+        SourcePanelWidth = $"{newSourcePanelSize}px";
+        PreviewPanelWidth = $"{newPreviewPanelSize}px";
+        Console.WriteLine($"Source panel size: {SourcePanelWidth}");
+    }
 }

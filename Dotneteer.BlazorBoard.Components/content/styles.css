@@ -1,0 +1,25 @@
+﻿.splitter-control {
+  display: flex;
+  flex-shrink: 0;
+  background-color: #282828; }
+  .splitter-control.horizontal {
+    flex-direction: row;
+    width: 6px;
+    height: 100%; }
+  .splitter-control.cursor-horizontal {
+    cursor: ew-resize; }
+  .splitter-control.vertical {
+    flex-direction: column;
+    height: 6px; }
+  .splitter-control.cursor-vertical {
+    cursor: ns-resize; }
+  .splitter-control .handle {
+    justify-content: center;
+    align-self: center;
+    background-color: #404040; }
+    .splitter-control .handle.handle-horizontal {
+      width: 6px;
+      height: 64px; }
+    .splitter-control .handle.handle-vertical {
+      height: 6px;
+      width: 64px; }

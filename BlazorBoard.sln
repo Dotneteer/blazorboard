@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29123.89
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dotneteer.BlazorBoard.Server", "Dotneteer.BlazorBoard.Server\Dotneteer.BlazorBoard.Server.csproj", "{6E2030F9-523F-4C60-AD98-E6DC5B58827F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dotneteer.BlazorBoard.Server", "Dotneteer.BlazorBoard.Server\Dotneteer.BlazorBoard.Server.csproj", "{6E2030F9-523F-4C60-AD98-E6DC5B58827F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dotneteer.BlazorBoard.Client", "Dotneteer.BlazorBoard.Client\Dotneteer.BlazorBoard.Client.csproj", "{D579594D-B58D-4736-AC98-598F42F0852A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dotneteer.BlazorBoard.Client", "Dotneteer.BlazorBoard.Client\Dotneteer.BlazorBoard.Client.csproj", "{D579594D-B58D-4736-AC98-598F42F0852A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dotneteer.BlazorBoard.Shared", "Dotneteer.BlazorBoard.Shared\Dotneteer.BlazorBoard.Shared.csproj", "{E7D15CE3-9CC2-4BC3-8A46-7308B87FB4E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dotneteer.BlazorBoard.Shared", "Dotneteer.BlazorBoard.Shared\Dotneteer.BlazorBoard.Shared.csproj", "{E7D15CE3-9CC2-4BC3-8A46-7308B87FB4E8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dotneteer.BlazorBoard.Components", "Dotneteer.BlazorBoard.Components\Dotneteer.BlazorBoard.Components.csproj", "{8B296589-5C90-48B9-8A76-86BED28FE601}"
 EndProject

@@ -7,7 +7,12 @@ $source-panel-background-color: #383838;
 $preview-panel-background-color: #606060;
 $sizer-background-color: #0000f0;
 $tab-bar-background-color: #007acc;
-$source-file-background-color: #202020;
+$source-file-background-color: #f0f0f0;
+
+$splitter-background-color: #282828;
+$splitter-size: 6px;
+$splitter-handle-background-color: #404040;
+$splitter-handle-size: 64px;
 
 * {
     box-sizing: border-box;
@@ -30,6 +35,15 @@ html, body {
     flex-shrink: 0;
     height: 100%;
     background-color: $shell-canvas-background-color;
+    user-select: none;
+
+    &.vertical-resize {
+        cursor: ns-resize;
+    }
+
+    &.horizontal-resize {
+        cursor: ew-resize;
+    }
 }
 
 .title-bar-component {
@@ -93,6 +107,7 @@ html, body {
     flex-shrink: 1;
     height: 100%;
     width: 100%;
+    z-index: 0;
     background-color: $source-file-background-color;
 }
 
@@ -103,11 +118,13 @@ html, body {
     flex-grow: 1;
     flex-shrink: 1;
     height: 100%;
-    width: 50%;
+    width: 100%;
+    overflow-x: hidden;
+    z-index: 10;
     background-color: $preview-panel-background-color;
 }
 
-.sizer-component {
+/*.sizer-component {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -116,7 +133,7 @@ html, body {
     width: 6px;
     cursor: ew-resize;
     background-color: $sizer-background-color;
-}
+}*/
 
 
 .status-bar-component {
@@ -134,3 +151,43 @@ html, body {
 // ============================================================================
 // Control specific styles
 // ============================================================================
+.splitter-component {
+    display: flex;
+    flex-shrink: 0;
+    background-color: $splitter-background-color;
+
+    &.horizontal {
+        flex-direction: row;
+        width: $splitter-size;
+        height: 100%;
+    }
+
+    &.cursor-horizontal {
+        cursor: ew-resize;
+    }
+
+    &.vertical {
+        flex-direction: column;
+        height: $splitter-size;
+    }
+
+    &.cursor-vertical {
+        cursor: ns-resize;
+    }
+
+    & .handle {
+        justify-content: center;
+        align-self: center;
+        background-color: $splitter-handle-background-color;
+
+        &.handle-horizontal {
+            width: $splitter-size;
+            height: $splitter-handle-size;
+        }
+
+        &.handle-vertical {
+            height: $splitter-size;
+            width: $splitter-handle-size;
+        }
+    }
+}

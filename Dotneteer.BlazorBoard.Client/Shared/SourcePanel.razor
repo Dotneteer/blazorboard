@@ -1,9 +1,17 @@
-﻿<div class="source-panel-component">
+﻿<div @ref="@Element" class="source-panel-component" style="width: @Width">
     <TabBar></TabBar>
     <SourceFile></SourceFile>
 </div>
 
 @code 
 {
-    string Title { get; set; } = "Source Panel";
+    [Parameter]
+    string Width { get; set; }
+
+    public ElementRef Element;
+
+    protected override void OnParametersSet()
+    {
+        Console.WriteLine($"New width: {Width}");
+    }
 }

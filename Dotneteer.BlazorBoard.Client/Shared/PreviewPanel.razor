@@ -1,8 +1,11 @@
-﻿<div class="preview-panel-component">
+﻿<div class="preview-panel-component" style="width: @Width">
     <p>@Title</p>
 </div>
 
 @code
 {
+    [Parameter]
+    string Width { get; set; }
+
     string Title { get; set; } = "Preview Panel";
 }

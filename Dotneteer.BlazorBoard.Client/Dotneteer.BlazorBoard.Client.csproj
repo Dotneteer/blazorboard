@@ -19,4 +19,8 @@
     <ProjectReference Include="..\Dotneteer.BlazorBoard.Shared\Dotneteer.BlazorBoard.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 </Project>
