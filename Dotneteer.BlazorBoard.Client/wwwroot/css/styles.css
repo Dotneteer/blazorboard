@@ -28,7 +28,7 @@ html, body {
   align-items: start;
   justify-content: start;
   padding: 8px 12px;
-  background-color: #282828; }
+  background-color: var(--title-bar-background-color); }
   .title-bar-component h1 {
     margin: -4px 0 0 0;
     font-size: 1.6em;

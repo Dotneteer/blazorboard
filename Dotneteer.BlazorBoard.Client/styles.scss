@@ -54,7 +54,7 @@ html, body {
     align-items: start;
     justify-content: start;
     padding: 8px 12px;
-    background-color: $title-bar-background-color;
+    background-color: var(--title-bar-background-color);
 
     & h1 {
         margin: -4px 0 0 0;

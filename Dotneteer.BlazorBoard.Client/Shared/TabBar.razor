@@ -1,6 +1,10 @@
-﻿<div class="tab-bar-component">
-    <p>@Title</p>
-</div>
+﻿<RadzenTabs>
+    <Tabs>
+        <RadzenTabsItem Text="source.js" />
+        <RadzenTabsItem Text="source.html" />
+        <RadzenTabsItem Text="source.css" />
+    </Tabs>
+</RadzenTabs>
 
 @code {
     public string Title { get; set; } = "Tab Bar";
