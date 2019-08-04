@@ -1,6 +1,17 @@
 ﻿<div @ref="@Element" class="source-panel-component" style="width: @Width">
-    <TabBar></TabBar>
-    <SourceFile></SourceFile>
+    <RadzenTabs>
+        <Tabs>
+            <RadzenTabsItem Text="source.js">
+                <SourceFile Script="// This is JavaScript"/>
+            </RadzenTabsItem>
+            <RadzenTabsItem Text="source.html">
+                <SourceFile Script="// This is HTML"/>
+            </RadzenTabsItem>
+            <RadzenTabsItem Text="source.css">
+                <SourceFile Script="// This is CSS"/>
+            </RadzenTabsItem>
+        </Tabs>
+    </RadzenTabs>
 </div>
 
 @code 

@@ -49,21 +49,22 @@ html, body {
 .title-bar-component {
     display: flex;
     flex-shrink: 0;
+    width: 100%;
     color: white;
-    box-sizing: border-box;
-    align-items: start;
-    justify-content: start;
+    align-content: start;
+    justify-items: start;
     padding: 8px 12px;
     background-color: var(--title-bar-background-color);
 
     & h1 {
+        flex-shrink: 0;
         margin: -4px 0 0 0;
         font-size: 1.6em;
         color: $title-color;
     }
 
     & p {
-        margin: 6px 12px 0 0;
+        margin: 6px 12px 0 12px;
 
         &.extra-left {
             margin-left: 16px;
@@ -87,17 +88,8 @@ html, body {
     flex-shrink: 1;
     height: 100%;
     width: 50%;
+    padding: 4px 0 4px 4px;
     background-color: $source-panel-background-color;
-}
-
-.tab-bar-component {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 0;
-    flex-shrink: 1;
-    height: 36px;
-    width: 100%;
-    background-color: $tab-bar-background-color;
 }
 
 .source-file-component {
@@ -190,4 +182,34 @@ html, body {
             width: $splitter-handle-size;
         }
     }
+}
+
+// ============================================================================
+// Radzen style overrides
+// ============================================================================
+.ui-dropdown {
+    border-radius: 0;
+
+    &.ui-dropdown-open {
+        background-color: var(--field-background-color);
+        border: var(--field-border);
+    }
+}
+
+.ui-tabview {
+    height: 100%;
+}
+
+.ui-tabview-panels {
+    display: flex;
+    height: 100%;
+    flex-shrink: 1;
+    flex-grow: 1;
+}
+
+.ui-tabview-panel.ui-widget-content {
+    display: block;
+    height: 100%;
+    width: 100%;
+    padding: 12px;
 }

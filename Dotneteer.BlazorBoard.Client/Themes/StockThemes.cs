@@ -10,7 +10,11 @@
         /// </summary>
         public static ThemeProps DarkTheme = new ThemeProps
         {
-            TitleBarBackgroundColor = "#202020"
+            TitleBarBackgroundColor = "#202020",
+            FieldBackgroundColor = "#383838",
+            FieldBorder = "1px solid #505050",
+
+            EditorTheme = "vs-dark"
         };
 
         /// <summary>
@@ -18,7 +22,11 @@
         /// </summary>
         public static ThemeProps LightTheme = new ThemeProps
         {
-            TitleBarBackgroundColor = "#e0e0e0"
+            TitleBarBackgroundColor = "#e0e0e0",
+            FieldBackgroundColor = "#f0f0f0",
+            FieldBorder = "1px solid #d0d0d0",
+
+            EditorTheme = "vs"
         };
     }
 }

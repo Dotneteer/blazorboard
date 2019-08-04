@@ -1,22 +1,33 @@
-﻿<div class="title-bar-component">
+﻿@inject IThemingService<ThemeProps> ThemingService
+
+<div class="title-bar-component">
     <h1>Blazor Board</h1>
-    <RadzenDropDown
-        Placeholder="Select Demo..." 
-        Data="@Customers" 
-        TextProperty="DisplayName"
-        ValueProperty="Id" 
-        Style="margin-left: 16px; width: 400px" />
-    <RadzenDropDown 
-        Placeholder="Scenario..."
-        Data="@Customers"
-        TextProperty="DisplayName"
-        ValueProperty="Id"
-        Style="margin-left: 16px; width: 200px" />
+    <RadzenDropDown Placeholder="Select Demo..."
+                    Data="@Customers"
+                    TextProperty="DisplayName"
+                    ValueProperty="Id"
+                    Style="margin-left: 16px; width: 400px; flex-shrink: 0;" />
+    <RadzenDropDown Placeholder="Scenario..."
+                    Data="@Customers"
+                    TextProperty="DisplayName"
+                    ValueProperty="Id"
+                    Style="margin-left: 16px; width: 200px; flex-shrink: 0;" />
+    <div style="justify-content: flex-end; display: flex; width: 100%;">
+        <p>Theme:</p>
+        <RadzenDropDown Data="@Themes"
+                        TextProperty="DisplayName"
+                        ValueProperty="Id"
+                        Style="width: 120px;"
+                        SelectedItem="@CurrentTheme"
+                        Change="OnThemeChanged" />
+    </div>
 </div>
 
 @code {
 
     List<ComboDataItem> Customers;
+    List<ComboDataItem> Themes;
+    ComboDataItem CurrentTheme;
 
     protected override void OnInit()
     {
@@ -28,6 +39,23 @@
             new ComboDataItem("opt4", "Option #4"),
             new ComboDataItem("opt5", "Option #5")
         };
+
+        Themes = new List<ComboDataItem>
+        {
+            new ComboDataItem("light", "Light"),
+            new ComboDataItem("dark", "Dark"),
+        };
+        CurrentTheme = Themes.FirstOrDefault(t => t.Id == ThemingService.GetActiveTheme().Name);
     }
 
+
+    private void OnThemeChanged(object item)
+    {
+        var theme = Themes.FirstOrDefault(cb => cb.Id == item.ToString());
+        if (theme != null)
+        {
+            ThemingService.SetTheme(theme.Id);
+            CurrentTheme = theme;
+        }
+    }
 }

@@ -1,7 +1,7 @@
 ﻿@page "/"
-@using Dotneteer.BlazorBoard.Client.Themes
 
 @inject IThemingService<ThemeProps> ThemingService
+@implements IDisposable
 
     <div class="app-container-component" style="@ThemeStyle">
         <Titlebar></Titlebar>
@@ -11,12 +11,25 @@
 
 @code
 {
-    private string ThemeStyle => ThemingService.ComposeStyleAttributeFromTheme();
+    private string ThemeStyle;
 
     protected override void OnInit()
     {
         ThemingService.RegisterTheme(new ThemeInfo<ThemeProps>("dark", StockThemes.DarkTheme));
         ThemingService.RegisterTheme(new ThemeInfo<ThemeProps>("light", StockThemes.LightTheme));
-        ThemingService.SetTheme("light");
+        ThemingService.ThemeChanged += OnThemeChanged;
+        ThemingService.SetTheme("dark");
+    }
+
+    private void OnThemeChanged(object sender, EventArgs e)
+    {
+        ThemeStyle = ThemingService.ComposeStyleAttributeFromTheme();
+        Console.WriteLine($"Theme changed to {ThemingService.GetActiveTheme().Name}");
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        ThemingService.ThemeChanged -= OnThemeChanged;
     }
 }

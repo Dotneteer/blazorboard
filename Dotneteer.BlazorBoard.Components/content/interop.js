@@ -25,6 +25,8 @@
             }
         },
 
+        setTheme: (themeName) => { monaco.editor.setTheme(themeName); },
+
         // --- Pointer interop methods
         setPointerCapture: (element, pointerId) => {
             if (element) {

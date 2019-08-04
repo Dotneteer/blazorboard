@@ -70,6 +70,17 @@ namespace Dotneteer.BlazorBoard.Components.Themes
         }
 
         /// <summary>
+        /// Gets the specified property
+        /// </summary>
+        /// <typeparam name="TProp">Property type</typeparam>
+        /// <param name="selector">Property selector</param>
+        /// <returns>Property value</returns>
+        public TProp GetProperty<TProp>(Func<TPropSet, TProp> selector)
+        {
+            return selector(_activeTheme);
+        }
+
+        /// <summary>
         /// Gets the style attribute to be used with the current theme
         /// </summary>
         /// <returns>Value of the style attribute</returns>
@@ -78,7 +89,10 @@ namespace Dotneteer.BlazorBoard.Components.Themes
             var sb = new StringBuilder(1024);
             foreach (var propInfo in _activeTheme.GetType().GetProperties())
             {
-                sb.Append($"--{ToCssName(propInfo.Name)}:{propInfo.GetValue(_activeTheme)};");
+                if (propInfo.GetCustomAttributes(typeof(NonCssAttribute), false).Length == 0)
+                {
+                    sb.Append($"--{ToCssName(propInfo.Name)}:{propInfo.GetValue(_activeTheme)};");
+                }
             }
             return sb.ToString();
         }

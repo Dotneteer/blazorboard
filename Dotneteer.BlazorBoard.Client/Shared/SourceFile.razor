@@ -1,18 +1,27 @@
 ﻿@inject IJSRuntime JSRuntime
+@inject IThemingService<ThemeProps> ThemingService
+@implements  IDisposable
 
 <div class="source-file-component" id="@EditorModel.Id">
 </div>
 
 @code {
-    bool _alreadyRendered = false;
+    [Parameter]
+    string Script { get; set; }
 
+    bool _alreadyRendered = false;
     EditorModel EditorModel;
 
     protected override void OnInit()
     {
+        ThemingService.ThemeChanged += OnThemeChanged;
+    }
+
+    protected override void OnParametersSet()
+    {
         EditorModel = new EditorModel
         {
-            Script = "// This is a comment",
+            Script = Script,
             Language = "csharp"
         };
     }
@@ -22,7 +31,20 @@
         if (!_alreadyRendered)
         {
             await JSRuntime.InvokeAsync<object>("BlazorBoardExtensions.editorInitialize", EditorModel);
+            await JSRuntime.InvokeAsync<object>("BlazorBoardExtensions.setTheme",
+                ThemingService.GetProperty(p => p.EditorTheme));
             _alreadyRendered = true;
         }
+    }
+
+    public async void OnThemeChanged(object sender, EventArgs e)
+    {
+        await JSRuntime.InvokeAsync<object>("BlazorBoardExtensions.setTheme",
+            ThemingService.GetProperty(p => p.EditorTheme));
+    }
+
+    public void Dispose()
+    {
+        ThemingService.ThemeChanged -= OnThemeChanged;
     }
 }

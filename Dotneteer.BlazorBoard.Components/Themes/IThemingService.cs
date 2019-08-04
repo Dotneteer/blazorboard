@@ -35,6 +35,14 @@ namespace Dotneteer.BlazorBoard.Components.Themes
         TProp GetProperty<TProp>(string propName);
 
         /// <summary>
+        /// Gets the specified property
+        /// </summary>
+        /// <typeparam name="TProp">Property type</typeparam>
+        /// <param name="selector">Property selector</param>
+        /// <returns>Property value</returns>
+        TProp GetProperty<TProp>(Func<TPropSet, TProp> selector);
+
+        /// <summary>
         /// Gets the style attribute to be used with the current theme
         /// </summary>
         /// <returns>Value of the style attribute</returns>
