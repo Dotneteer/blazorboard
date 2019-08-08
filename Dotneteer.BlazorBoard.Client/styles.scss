@@ -100,7 +100,7 @@ html, body {
     height: 100%;
     width: 100%;
     z-index: 0;
-    background-color: $source-file-background-color;
+    background-color: var(--field-background);
 }
 
 
@@ -115,18 +115,6 @@ html, body {
     z-index: 10;
     background-color: $preview-panel-background-color;
 }
-
-/*.sizer-component {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    flex-shrink: 1;
-    height: 100%;
-    width: 6px;
-    cursor: ew-resize;
-    background-color: $sizer-background-color;
-}*/
-
 
 .status-bar-component {
     display: flex;
@@ -189,27 +177,97 @@ html, body {
 // ============================================================================
 .ui-dropdown {
     border-radius: 0;
+    color: var(--field-color);
 
     &.ui-dropdown-open {
         background-color: var(--field-background-color);
         border: var(--field-border);
     }
+
+    &-panel {
+        background-color: var(--field-background-color);
+        border: var(--field-border);
+        border-top: none;
+        border-radius: 0;
+    }
+
+    &-items {
+
+        & li.ui-state-highlight {
+            background: var(--field-hilite-background-color);
+        }
+
+        & li:hover {
+            background: var(--field-hover-background-color);
+        }
+    }
+
+    & .ui-placeholder {
+        color: var(--field-placeholder-color);
+    }
+
+    &-label .ui-inputtext {
+        color: var(--field-color);
+    }
 }
 
 .ui-tabview {
     height: 100%;
-}
 
-.ui-tabview-panels {
-    display: flex;
-    height: 100%;
-    flex-shrink: 1;
-    flex-grow: 1;
-}
+    &-title {
+        color: var(--field-color);
+        font-weight: 400;
+    }
 
-.ui-tabview-panel.ui-widget-content {
-    display: block;
-    height: 100%;
-    width: 100%;
-    padding: 12px;
+    &-nav {
+        background-color: var(--field-background-color);
+
+        & li {
+            background-color: var(--field-background-color);
+            border: var(--field-border);
+            border-width: 0;
+            border-radius: 0;
+
+            & a {
+                padding: 4px 16px;
+            }
+
+            &:hover:not(.ui-tabview-selected) {
+                background: var(--field-hover-background-color);
+            }
+        }
+
+        & .ui-tabview-selected {
+            background-color: var(--field-background-color);
+            border: var(--field-border);
+            border-bottom-width: 0;
+            border-radius: 0;
+            border-top: 4px solid var(--field-hilite-background-color);
+
+            & a {
+                padding: 4px 16px;
+            }
+        }
+    }
+
+    &-panels {
+        display: flex;
+        height: 100%;
+        flex-shrink: 1;
+        flex-grow: 1;
+        background-color: var(--field-background-color);
+        border-radius: 0;
+        border: var(--field-border);
+    }
+
+    &-panel {
+        border-radius: 0;
+    }
+
+    &-panel.ui-widget-content {
+        display: block;
+        height: 100%;
+        width: 100%;
+        padding: 12px;
+    }
 }

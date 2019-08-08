@@ -13,6 +13,10 @@
             TitleBarBackgroundColor = "#202020",
             FieldBackgroundColor = "#383838",
             FieldBorder = "1px solid #505050",
+            FieldColor = "#f0f0f0",
+            FieldHoverBackgroundColor = "#094771",
+            FieldHiliteBackgroundColor = "#007acc",
+            FieldPlaceholderColor = "#b0b0b0",
 
             EditorTheme = "vs-dark"
         };
@@ -25,6 +29,10 @@
             TitleBarBackgroundColor = "#e0e0e0",
             FieldBackgroundColor = "#f0f0f0",
             FieldBorder = "1px solid #d0d0d0",
+            FieldColor = "#101010",
+            FieldHoverBackgroundColor = "#007acc",
+            FieldHiliteBackgroundColor = "#007acc",
+            FieldPlaceholderColor = "#808080",
 
             EditorTheme = "vs"
         };
