@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Dotneteer.BlazorBoard.Components.Themes
@@ -10,28 +11,38 @@ namespace Dotneteer.BlazorBoard.Components.Themes
     /// <typeparam name="TPropSet">A type holding the property set of the theme</typeparam>
     public class ThemingService<TPropSet> : IThemingService<TPropSet>
     {
-        private readonly Dictionary<string, TPropSet> _themes =
-            new Dictionary<string, TPropSet>();
-        private string _activeName;
-        private TPropSet _activeTheme;
+        private readonly Dictionary<string, ThemeInfo<TPropSet>> _themes =
+            new Dictionary<string, ThemeInfo<TPropSet>>();
+        private string _activeId;
+        private ThemeInfo<TPropSet> _activeTheme;
 
         /// <summary>
         /// Registers the theme
         /// </summary>
         /// <param name="theme">Theme to register</param>
         public void RegisterTheme(ThemeInfo<TPropSet> theme)
-            => _themes[theme.Name] = theme.Properties;
+        {
+            _themes[theme.Id] = theme;
+
+        }
+
+        /// <summary>
+        /// Get all registered themes
+        /// </summary>
+        /// <returns>List of registered themes</returns>
+        public List<ThemeInfo<TPropSet>> GetRegisteredThemes() 
+            => _themes.Values.ToList();
 
         /// <summary>
         /// Sets the theme to the specified one
         /// </summary>
-        /// <param name="name">Theme name</param>
-        public void SetTheme(string name)
+        /// <param name="id">Theme name</param>
+        public void SetTheme(string id)
         {
-            if (name == _activeName) return;
-            if (!_themes.TryGetValue(name, out var theme)) return;
+            if (id == _activeId) return;
+            if (!_themes.TryGetValue(id, out var theme)) return;
 
-            _activeName = name;
+            _activeId = id;
             _activeTheme = theme;
             OnThemeChanged();
         }
@@ -52,8 +63,7 @@ namespace Dotneteer.BlazorBoard.Components.Themes
         /// Gets the active theme
         /// </summary>
         /// <returns>Active theme information</returns>
-        public ThemeInfo<TPropSet> GetActiveTheme()
-            => new ThemeInfo<TPropSet>(_activeName, _activeTheme);
+        public ThemeInfo<TPropSet> GetActiveTheme() => _activeTheme;
 
         /// <summary>
         /// Gets the specified property
@@ -63,10 +73,11 @@ namespace Dotneteer.BlazorBoard.Components.Themes
         /// <returns>Property value</returns>
         public TProp GetProperty<TProp>(string propName)
         {
-            var propInfo = _activeTheme?.GetType().GetProperty(propName);
+            var props = _activeTheme.Properties;
+            var propInfo = props.GetType().GetProperty(propName);
             return propInfo == null
                 ? default
-                : (TProp)propInfo.GetValue(_activeTheme);
+                : (TProp)propInfo.GetValue(props);
         }
 
         /// <summary>
@@ -77,7 +88,7 @@ namespace Dotneteer.BlazorBoard.Components.Themes
         /// <returns>Property value</returns>
         public TProp GetProperty<TProp>(Func<TPropSet, TProp> selector)
         {
-            return selector(_activeTheme);
+            return selector(_activeTheme.Properties);
         }
 
         /// <summary>
@@ -87,11 +98,12 @@ namespace Dotneteer.BlazorBoard.Components.Themes
         public string ComposeStyleAttributeFromTheme()
         {
             var sb = new StringBuilder(1024);
-            foreach (var propInfo in _activeTheme.GetType().GetProperties())
+            var props = _activeTheme.Properties;
+            foreach (var propInfo in props.GetType().GetProperties())
             {
                 if (propInfo.GetCustomAttributes(typeof(NonCssAttribute), false).Length == 0)
                 {
-                    sb.Append($"--{ToCssName(propInfo.Name)}:{propInfo.GetValue(_activeTheme)};");
+                    sb.Append($"--{ToCssName(propInfo.Name)}:{propInfo.GetValue(props)};");
                 }
             }
             return sb.ToString();

@@ -115,6 +115,10 @@ html, body {
       height: 6px;
       width: 64px; }
 
+.simple-component {
+  padding: 12px;
+  border: 2px solid green; }
+
 .ui-dropdown {
   border-radius: 0;
   color: var(--field-color); }

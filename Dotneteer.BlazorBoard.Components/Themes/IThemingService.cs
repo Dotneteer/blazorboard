@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Dotneteer.BlazorBoard.Components.Themes
 {
@@ -13,6 +14,12 @@ namespace Dotneteer.BlazorBoard.Components.Themes
         /// </summary>
         /// <param name="theme">Theme to register</param>
         void RegisterTheme(ThemeInfo<TPropSet> theme);
+        
+        /// <summary>
+        /// Get all registered themes
+        /// </summary>
+        /// <returns>List of registered themes</returns>
+        List<ThemeInfo<TPropSet>> GetRegisteredThemes();
 
         /// <summary>
         /// Sets the theme to the specified one

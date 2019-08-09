@@ -7,18 +7,24 @@
     public struct ThemeInfo<TPropSet>
     {
         /// <summary>
-        /// Theme name
+        /// Theme identifier
         /// </summary>
-        public string Name { get; }
+        public string Id { get; }
+
+        /// <summary>
+        /// Name to display for this theme
+        /// </summary>
+        public string DisplayName { get; }
 
         /// <summary>
         /// The properties of the theme
         /// </summary>
         public TPropSet Properties { get; }
 
-        public ThemeInfo(string name, TPropSet properties)
+        public ThemeInfo(string id, string displayName, TPropSet properties)
         {
-            Name = name;
+            Id = id;
+            DisplayName = displayName;
             Properties = properties;
         }
     }

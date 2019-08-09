@@ -1,6 +1,7 @@
 ﻿@page "/"
 
 @inject IThemingService<ThemeProps> ThemingService
+@inject IDemoMetadataService DemoMetadataService
 @implements IDisposable
 
     <div class="app-container-component" style="@ThemeStyle">
@@ -15,16 +16,20 @@
 
     protected override void OnInit()
     {
-        ThemingService.RegisterTheme(new ThemeInfo<ThemeProps>("dark", StockThemes.DarkTheme));
-        ThemingService.RegisterTheme(new ThemeInfo<ThemeProps>("light", StockThemes.LightTheme));
+        // --- Set up themes
+        ThemingService.RegisterTheme(new ThemeInfo<ThemeProps>("dark", "Dark", StockThemes.DarkTheme));
+        ThemingService.RegisterTheme(new ThemeInfo<ThemeProps>("light", "Light", StockThemes.LightTheme));
         ThemingService.ThemeChanged += OnThemeChanged;
         ThemingService.SetTheme("dark");
+
+        // --- Collect demo metadata
+        var metadata = DemoHelper.GetDemos();
+        DemoMetadataService.RegisterDemoMetadata(metadata);
     }
 
     private void OnThemeChanged(object sender, EventArgs e)
     {
         ThemeStyle = ThemingService.ComposeStyleAttributeFromTheme();
-        Console.WriteLine($"Theme changed to {ThemingService.GetActiveTheme().Name}");
         StateHasChanged();
     }
 

@@ -6,7 +6,7 @@
         StartSizing="OnStartSizing"
         Sizing="OnSizing"
     />
-    <PreviewPanel Width="@PreviewPanelWidth" />
+    <PreviewPanel Width="@PreviewPanelWidth" TypeName="@(typeof(SimpleText).AssemblyQualifiedName)" />
 </div>
 
 @code 
@@ -39,6 +39,5 @@
         if (newSourcePanelSize < 100 || newPreviewPanelSize < 100) return;
         SourcePanelWidth = $"{newSourcePanelSize}px";
         PreviewPanelWidth = $"{newPreviewPanelSize}px";
-        Console.WriteLine($"Source panel size: {SourcePanelWidth}");
     }
 }

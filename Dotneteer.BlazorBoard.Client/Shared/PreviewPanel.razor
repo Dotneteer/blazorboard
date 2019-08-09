@@ -1,11 +1,25 @@
 ﻿<div class="preview-panel-component" style="width: @Width">
-    <p>@Title</p>
+    @CustomRender
 </div>
 
 @code
 {
     [Parameter]
+    string TypeName { get; set; }
+
+    [Parameter]
     string Width { get; set; }
 
-    string Title { get; set; } = "Preview Panel";
+    RenderFragment CustomRender;
+
+    protected override void OnParametersSet()
+    {
+        var componentType = Type.GetType(TypeName);
+        if (componentType != null)
+        CustomRender = b =>
+        {
+            b.OpenComponent(0, componentType);
+            b.CloseComponent();
+        };
+    }
 }

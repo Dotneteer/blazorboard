@@ -13,10 +13,17 @@
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="3.0.0-preview7.19365.7" PrivateAssets="all" />
     <PackageReference Include="Radzen.Blazor" Version="0.0.47" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <ProjectReference Include="..\Dotneteer.BlazorBoard.Components\Dotneteer.BlazorBoard.Components.csproj" />
     <ProjectReference Include="..\Dotneteer.BlazorBoard.Shared\Dotneteer.BlazorBoard.Shared.csproj" />
   </ItemGroup>
-
+  
+  <ItemGroup>
+    <Folder Include="wwwroot\demos\" />
+  </ItemGroup>
+  
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="xcopy $(ProjectDir)Demos $(ProjectDir)wwwroot\demos /S /Y&#xD;&#xA;" />
+  </Target>
 </Project>

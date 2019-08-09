@@ -1,53 +1,94 @@
 ﻿@inject IThemingService<ThemeProps> ThemingService
+@inject IDemoMetadataService DemoMetadataService
 
 <div class="title-bar-component">
     <h1>Blazor Board</h1>
-    <RadzenDropDown Placeholder="Select Demo..."
-                    Data="@Customers"
-                    TextProperty="DisplayName"
-                    ValueProperty="Id"
-                    Style="margin-left: 16px; width: 400px; flex-shrink: 0;" />
-    <RadzenDropDown Placeholder="Scenario..."
-                    Data="@Customers"
-                    TextProperty="DisplayName"
-                    ValueProperty="Id"
-                    Style="margin-left: 16px; width: 200px; flex-shrink: 0;" />
+    <RadzenDropDown 
+        Placeholder="Select Demo..."
+        Data="@Demos"
+        TextProperty="DisplayName"
+        ValueProperty="Id"
+        SelectedItem="@CurrentDemo"
+        Change="OnDemoChanged"
+        Style="margin-left: 16px; width: 400px; flex-shrink: 0;" />
+    <RadzenDropDown
+        Placeholder="Scenario..."
+        Data="@Scenarios"
+        TextProperty="DisplayName"
+        ValueProperty="Id"
+        SelectedItem="@CurrentScenario"
+        Change="OnScenarioChanged"
+        Style="margin-left: 16px; width: 200px; flex-shrink: 0;" />
     <div style="justify-content: flex-end; display: flex; width: 100%;">
         <p>Theme:</p>
-        <RadzenDropDown Data="@Themes"
-                        TextProperty="DisplayName"
-                        ValueProperty="Id"
-                        Style="width: 120px;"
-                        SelectedItem="@CurrentTheme"
-                        Change="OnThemeChanged" />
+        <RadzenDropDown
+            Data="@Themes"
+            TextProperty="DisplayName"
+            ValueProperty="Id"
+            Style="width: 120px;"
+            SelectedItem="@CurrentTheme"
+            Change="OnThemeChanged" />
     </div>
 </div>
 
 @code {
 
-    List<ComboDataItem> Customers;
+    List<ComboDataItem> Demos;
+    ComboDataItem CurrentDemo;
+
+    List<ComboDataItem> Scenarios;
+    ComboDataItem CurrentScenario;
+
     List<ComboDataItem> Themes;
     ComboDataItem CurrentTheme;
 
     protected override void OnInit()
     {
-        Customers = new List<ComboDataItem>
+        var metadata = DemoMetadataService.GetDemoMetadata();
+        Demos = metadata
+            .Select(m => new ComboDataItem(m.Id, m.Title))
+            .ToList();
+        if (Demos.Count > 0)
         {
-            new ComboDataItem("opt1", "Option #1"),
-            new ComboDataItem("opt2", "Option #2"),
-            new ComboDataItem("opt3", "Option #3"),
-            new ComboDataItem("opt4", "Option #4"),
-            new ComboDataItem("opt5", "Option #5")
-        };
+            CurrentDemo = Demos[0];
+            OnDemoChanged(CurrentDemo.Id);
+        }
 
-        Themes = new List<ComboDataItem>
-        {
-            new ComboDataItem("light", "Light"),
-            new ComboDataItem("dark", "Dark"),
-        };
-        CurrentTheme = Themes.FirstOrDefault(t => t.Id == ThemingService.GetActiveTheme().Name);
+        Themes = ThemingService.GetRegisteredThemes()
+            .Select(t => new ComboDataItem(t.Id, t.DisplayName))
+            .ToList();
+        CurrentTheme = Themes.FirstOrDefault(t => t.Id == ThemingService.GetActiveTheme().Id);
     }
 
+    private void OnDemoChanged(object item)
+    {
+        var demo = Demos.FirstOrDefault(cb => cb.Id == item.ToString());
+        if (demo != null)
+        {
+            CurrentDemo = demo;
+        }
+
+        var metadata = DemoMetadataService.GetDemoMetadata();
+        var demoMetadata = metadata.FirstOrDefault(md => md.Id == item.ToString());
+        if (demoMetadata == null) return;
+
+        Scenarios = demoMetadata.Scenarios
+            .Select(s => new ComboDataItem(s.Id, s.Title))
+            .ToList();
+        if (Scenarios.Count > 0)
+        {
+            CurrentScenario = Scenarios[0];
+        }
+    }
+
+    private void OnScenarioChanged(object item)
+    {
+        var scenario = Scenarios.FirstOrDefault(s => s.Id == item.ToString());
+        if (scenario != null)
+        {
+            CurrentScenario = scenario;
+        }
+    }
 
     private void OnThemeChanged(object item)
     {
