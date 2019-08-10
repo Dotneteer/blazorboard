@@ -1,15 +1,15 @@
-﻿<div @ref="@Element" class="source-panel-component" style="width: @Width">
+﻿@inherits  StateAwareComponentBase
+
+<div @ref="@Element" class="source-panel-component" style="width: @Width">
     <RadzenTabs>
         <Tabs>
-            <RadzenTabsItem Text="source.js">
-                <SourceFile Script="// This is JavaScript"/>
-            </RadzenTabsItem>
-            <RadzenTabsItem Text="source.html">
-                <SourceFile Script="// This is HTML"/>
-            </RadzenTabsItem>
-            <RadzenTabsItem Text="source.css">
-                <SourceFile Script="// This is CSS"/>
-            </RadzenTabsItem>
+            @foreach (var sourceFile in State.SourceFiles)
+            {
+                Console.WriteLine($"Render: {sourceFile.Id}");
+                <RadzenTabsItem Text="@sourceFile.Id" Selected="@(State.SelectedSourceFileName == sourceFile.Id)">
+                    <SourceFile Script="@($"// This is {sourceFile.Id}")" />
+                </RadzenTabsItem>
+            }
         </Tabs>
     </RadzenTabs>
 </div>
@@ -19,10 +19,15 @@
     [Parameter]
     string Width { get; set; }
 
+    /// <summary>
+    /// The parent panel can access the native HTML element of 
+    /// this component
+    /// </summary>
     public ElementRef Element;
 
-    protected override void OnParametersSet()
+    protected override void OnSelectedSourceFileChanged(ComboDataItem selectedSourceFile)
     {
-        Console.WriteLine($"New width: {Width}");
+        Console.WriteLine($"Source file changed: {selectedSourceFile.Id}");
+        StateHasChanged();
     }
 }

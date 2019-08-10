@@ -1,6 +1,7 @@
 ﻿using Dotneteer.BlazorBoard.Components;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Dotneteer.BlazorBoard.Client.Core
 {
@@ -17,7 +18,12 @@ namespace Dotneteer.BlazorBoard.Client.Core
         /// <summary>
         /// The ID of the selected application theme
         /// </summary>
-        public string SelectedTheme { get; set; }
+        public string SelectedThemeId { get; set; }
+
+        /// <summary>
+        /// The selected theme item
+        /// </summary>
+        public ComboDataItem SelectedTheme => Themes.FirstOrDefault(t => t.Id == SelectedThemeId);
 
         /// <summary>
         /// The available demo items
@@ -27,7 +33,12 @@ namespace Dotneteer.BlazorBoard.Client.Core
         /// <summary>
         /// The ID of the selected demo
         /// </summary>
-        public string SelectedDemo { get; set; }
+        public string SelectedDemoId { get; set; }
+
+        /// <summary>
+        /// The selected demo item
+        /// </summary>
+        public ComboDataItem SelectedDemo => Demos.FirstOrDefault(d => d.Id == SelectedDemoId);
 
         /// <summary>
         /// The available scenario items
@@ -37,7 +48,12 @@ namespace Dotneteer.BlazorBoard.Client.Core
         /// <summary>
         /// The ID of the selected scenario
         /// </summary>
-        public string SelectedScenario { get; set; }
+        public string SelectedScenarioId { get; set; }
+
+        /// <summary>
+        /// The selected scenario item
+        /// </summary>
+        public ComboDataItem SelectedScenario => Scenarios.FirstOrDefault(s => s.Id == SelectedScenarioId);
 
         /// <summary>
         /// The available source file items
@@ -47,7 +63,12 @@ namespace Dotneteer.BlazorBoard.Client.Core
         /// <summary>
         /// The ID of the selecte source file item
         /// </summary>
-        public string SelectedSourceFile { get; set; }
+        public string SelectedSourceFileName { get; set; }
+
+        /// <summary>
+        /// The selected source file item
+        /// </summary>
+        public ComboDataItem SelectedSourceFile => SourceFiles.FirstOrDefault(s => s.Id == SelectedSourceFileName);
 
         /// <summary>
         /// Creates a deep clone of this instance
@@ -58,13 +79,13 @@ namespace Dotneteer.BlazorBoard.Client.Core
             var clone = new BlazorBoardState
             {
                 Themes = new List<ComboDataItem>(Themes),
-                SelectedTheme = SelectedTheme,
+                SelectedThemeId = SelectedThemeId,
                 Demos = new List<ComboDataItem>(Demos),
-                SelectedDemo = SelectedDemo,
+                SelectedDemoId = SelectedDemoId,
                 Scenarios = new List<ComboDataItem>(Scenarios),
-                SelectedScenario = SelectedScenario,
+                SelectedScenarioId = SelectedScenarioId,
                 SourceFiles = new List<ComboDataItem>(SourceFiles),
-                SelectedSourceFile = SelectedSourceFile
+                SelectedSourceFileName = SelectedSourceFileName
             };
             action?.Invoke(clone);
             return clone;

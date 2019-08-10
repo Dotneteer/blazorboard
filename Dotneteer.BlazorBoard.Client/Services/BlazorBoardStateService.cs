@@ -11,7 +11,10 @@ namespace Dotneteer.BlazorBoard.Client.Services
     /// </summary>
     public class BlazorBoardStateService : IBlazorBoardStateService
     {
-        private BlazorBoardState _state;
+        /// <summary>
+        /// The current application state
+        /// </summary>
+        public BlazorBoardState State { get; private set; }
 
         /// <summary>
         /// This event is raised whenever the state of the application changes.
@@ -27,21 +30,21 @@ namespace Dotneteer.BlazorBoard.Client.Services
             List<ComboDataItem> scenarios,
             List<ComboDataItem> sourceFiles)
         {
-            if (_state != null) return;
-            var oldState = _state;
+            if (State != null) return;
+            var oldState = State;
             var newState = new BlazorBoardState
             {
                 Themes = themes ?? throw new ArgumentNullException(nameof(themes)),
-                SelectedTheme = (themes?.Count ?? -1) > 0 ? themes[0].Id : null,
+                SelectedThemeId = (themes?.Count ?? -1) > 0 ? themes[0].Id : null,
                 Demos = demos ?? throw new ArgumentNullException(nameof(demos)),
-                SelectedDemo = (demos?.Count ?? -1) > 0 ? demos[0].Id : null,
+                SelectedDemoId = (demos?.Count ?? -1) > 0 ? demos[0].Id : null,
                 Scenarios = scenarios ?? throw new ArgumentNullException(nameof(scenarios)),
-                SelectedScenario = (scenarios?.Count ?? -1) > 0 ? scenarios[0].Id : null,
+                SelectedScenarioId = (scenarios?.Count ?? -1) > 0 ? scenarios[0].Id : null,
                 SourceFiles = sourceFiles ?? throw new ArgumentNullException(nameof(sourceFiles)),
-                SelectedSourceFile  = (sourceFiles?.Count ?? -1) > 0 ? sourceFiles[0].Id : null,
+                SelectedSourceFileName  = (sourceFiles?.Count ?? -1) > 0 ? sourceFiles[0].Id : null,
             };
-            _state = newState;
-            AppStateChanged?.Invoke(this, new StateChangedEventArgs(oldState, _state));
+            State = newState;
+            AppStateChanged?.Invoke(this, new StateChangedEventArgs(oldState, State));
         }
 
         /// <summary>
@@ -50,10 +53,14 @@ namespace Dotneteer.BlazorBoard.Client.Services
         /// <param name="themes">List of themes</param>
         public void SetThemeList(List<ComboDataItem> themes)
         {
-            if (_state.Themes == themes) return;
-            var oldState = _state;
-            _state = _state.Clone(s => s.Themes = themes);
-            var args = new StateChangedEventArgs(oldState, _state);
+            if (State.Themes == themes) return;
+            var oldState = State;
+            State = State.Clone(s =>
+            {
+                s.Themes = themes;
+                s.SelectedThemeId = themes.Count > 0 ? themes[0].Id : null;
+            });
+            var args = new StateChangedEventArgs(oldState, State);
             AppStateChanged?.Invoke(this, args);
             ThemeListChanged?.Invoke(this, args);
         }
@@ -69,27 +76,31 @@ namespace Dotneteer.BlazorBoard.Client.Services
         /// <param name="themeId">ID of the new theme</param>
         public void SelectTheme(string themeId)
         {
-            if (_state.SelectedTheme == themeId) return;
-            var oldState = _state;
-            _state = _state.Clone(s => s.SelectedTheme = themeId);
-            var args = new StateChangedEventArgs(oldState, _state);
+            if (State.SelectedThemeId == themeId) return;
+            var oldState = State;
+            State = State.Clone(s => s.SelectedThemeId = themeId);
+            var args = new StateChangedEventArgs(oldState, State);
             AppStateChanged?.Invoke(this, args);
-            ThemeChanged?.Invoke(this, args);
+            SelectedThemeChanged?.Invoke(this, args);
         }
 
         /// <summary>
         /// This event is raised whenever the current theme changes
         /// </summary>
-        public event EventHandler<StateChangedEventArgs> ThemeChanged;
+        public event EventHandler<StateChangedEventArgs> SelectedThemeChanged;
 
         public void SetDemoList(List<ComboDataItem> demos)
         {
-            if (_state.Demos == demos) return;
-            var oldState = _state;
-            _state = _state.Clone(s => s.Demos = demos);
-            var args = new StateChangedEventArgs(oldState, _state);
+            if (State.Demos == demos) return;
+            var oldState = State;
+            State = State.Clone(s => {
+                s.Demos = demos;
+                s.SelectedDemoId = demos.Count > 0 ? demos[0].Id : null;
+            });
+            var args = new StateChangedEventArgs(oldState, State);
             AppStateChanged?.Invoke(this, args);
             DemoListChanged?.Invoke(this, args);
+            SelectedDemoChanged?.Invoke(this, args);
         }
 
         /// <summary>
@@ -103,10 +114,10 @@ namespace Dotneteer.BlazorBoard.Client.Services
         /// <param name="demoId">ID of the selected demo</param>
         public void SelectDemo(string demoId)
         {
-            if (_state.SelectedDemo == demoId) return;
-            var oldState = _state;
-            _state = _state.Clone(s => s.SelectedDemo = demoId);
-            var args = new StateChangedEventArgs(oldState, _state);
+            if (State.SelectedDemoId == demoId) return;
+            var oldState = State;
+            State = State.Clone(s => s.SelectedDemoId = demoId);
+            var args = new StateChangedEventArgs(oldState, State);
             AppStateChanged?.Invoke(this, args);
             SelectedDemoChanged?.Invoke(this, args);
         }
@@ -122,12 +133,17 @@ namespace Dotneteer.BlazorBoard.Client.Services
         /// <param name="scenarios">List of scenarios</param>
         public void SetScenarioList(List<ComboDataItem> scenarios)
         {
-            if (_state.Scenarios == scenarios) return;
-            var oldState = _state;
-            _state = _state.Clone(s => s.Scenarios = scenarios);
-            var args = new StateChangedEventArgs(oldState, _state);
+            if (State.Scenarios == scenarios) return;
+            var oldState = State;
+            State = State.Clone(s =>
+            {
+                s.Scenarios = scenarios;
+                s.SelectedScenarioId = scenarios.Count > 0 ? scenarios[0].Id : null;
+            });
+            var args = new StateChangedEventArgs(oldState, State);
             AppStateChanged?.Invoke(this, args);
             ScenarioListChanged?.Invoke(this, args);
+            SelectedScenarioChanged?.Invoke(this, args);
         }
 
         /// <summary>
@@ -141,10 +157,10 @@ namespace Dotneteer.BlazorBoard.Client.Services
         /// <param name="scenarioId">ID of the selected scenario</param>
         public void SelectScenario(string scenarioId)
         {
-            if (_state.SelectedScenario == scenarioId) return;
-            var oldState = _state;
-            _state = _state.Clone(s => s.SelectedScenario = scenarioId);
-            var args = new StateChangedEventArgs(oldState, _state);
+            if (State.SelectedScenarioId == scenarioId) return;
+            var oldState = State;
+            State = State.Clone(s => s.SelectedScenarioId = scenarioId);
+            var args = new StateChangedEventArgs(oldState, State);
             AppStateChanged?.Invoke(this, args);
             SelectedScenarioChanged?.Invoke(this, args);
         }
@@ -160,12 +176,17 @@ namespace Dotneteer.BlazorBoard.Client.Services
         /// <param name="sourceFiles">List of source files</param>
         public void SetSourceFileList(List<ComboDataItem> sourceFiles)
         {
-            if (_state.SourceFiles == sourceFiles) return;
-            var oldState = _state;
-            _state = _state.Clone(s => s.SourceFiles = sourceFiles);
-            var args = new StateChangedEventArgs(oldState, _state);
+            if (State.SourceFiles == sourceFiles) return;
+            var oldState = State;
+            State = State.Clone(s =>
+            {
+                s.SourceFiles = sourceFiles;
+                s.SelectedSourceFileName = sourceFiles.Count > 0 ? sourceFiles[0].Id : null;
+            });
+            var args = new StateChangedEventArgs(oldState, State);
             AppStateChanged?.Invoke(this, args);
             SourceFileListChanged?.Invoke(this, args);
+            SelectedSourceFileChanged?.Invoke(this, args);
         }
 
         /// <summary>
@@ -179,10 +200,10 @@ namespace Dotneteer.BlazorBoard.Client.Services
         /// <param name="sourceFile">Selected source file</param>
         public void SelectSourceFile(string sourceFile)
         {
-            if (_state.SelectedSourceFile == sourceFile) return;
-            var oldState = _state;
-            _state = _state.Clone(s => s.SelectedSourceFile = sourceFile);
-            var args = new StateChangedEventArgs(oldState, _state);
+            if (State.SelectedSourceFileName == sourceFile) return;
+            var oldState = State;
+            State = State.Clone(s => s.SelectedSourceFileName = sourceFile);
+            var args = new StateChangedEventArgs(oldState, State);
             AppStateChanged?.Invoke(this, args);
             SelectedSourceFileChanged?.Invoke(this, args);
         }

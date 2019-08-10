@@ -1,4 +1,5 @@
-﻿using Dotneteer.BlazorBoard.Components;
+﻿using Dotneteer.BlazorBoard.Client.Core;
+using Dotneteer.BlazorBoard.Components;
 using System;
 using System.Collections.Generic;
 
@@ -9,6 +10,11 @@ namespace Dotneteer.BlazorBoard.Client.Services
     /// </summary>
     public interface IBlazorBoardStateService
     {
+        /// <summary>
+        /// The current application state
+        /// </summary>
+        BlazorBoardState State { get; }
+
         /// <summary>
         /// This event is raised whenever the state of the application changes.
         /// </summary>
@@ -43,7 +49,7 @@ namespace Dotneteer.BlazorBoard.Client.Services
         /// <summary>
         /// This event is raised whenever the current theme changes
         /// </summary>
-        event EventHandler<StateChangedEventArgs> ThemeChanged;
+        event EventHandler<StateChangedEventArgs> SelectedThemeChanged;
 
         /// <summary>
         /// Sets the list of demos

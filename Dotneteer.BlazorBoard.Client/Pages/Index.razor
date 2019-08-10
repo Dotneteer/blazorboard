@@ -2,7 +2,7 @@
 
 @inject IThemingService<ThemeProps> ThemingService
 @inject IDemoMetadataService DemoMetadataService
-@implements IDisposable
+@inherits StateAwareComponentBase
 
     <div class="app-container-component" style="@ThemeStyle">
         <Titlebar></Titlebar>
@@ -16,15 +16,34 @@
 
     protected override void OnInit()
     {
+        base.OnInit();
+
         // --- Set up themes
         ThemingService.RegisterTheme(new ThemeInfo<ThemeProps>("dark", "Dark", StockThemes.DarkTheme));
         ThemingService.RegisterTheme(new ThemeInfo<ThemeProps>("light", "Light", StockThemes.LightTheme));
         ThemingService.ThemeChanged += OnThemeChanged;
         ThemingService.SetTheme("dark");
 
-        // --- Collect demo metadata
+        // --- Register demos
         var metadata = DemoHelper.GetDemos();
         DemoMetadataService.RegisterDemoMetadata(metadata);
+
+        // --- Collect initial data
+        var themes = ThemingService.GetRegisteredThemes()
+            .Select(t => new ComboDataItem(t.Id, t.DisplayName))
+            .ToList();
+        var demos = metadata
+            .Select(m => new ComboDataItem(m.Id, m.Title))
+            .ToList();
+        var scenarios = metadata.Count > 0
+            ? metadata[0].Scenarios.Select(s => new ComboDataItem(s.Id, s.Title)).ToList()
+            : new List<ComboDataItem>();
+        var sourceFiles = scenarios.Count > 0
+            ? metadata[0].Scenarios[0].SourceFiles.Select(s => new ComboDataItem(s.Name, s.Title)).ToList()
+            : new List<ComboDataItem>();
+
+        // --- Now, init app state
+        StateService.InitAppState(themes, demos, scenarios, sourceFiles);
     }
 
     private void OnThemeChanged(object sender, EventArgs e)
@@ -33,8 +52,9 @@
         StateHasChanged();
     }
 
-    public void Dispose()
+    public override void Dispose()
     {
+        base.Dispose();
         ThemingService.ThemeChanged -= OnThemeChanged;
     }
 }

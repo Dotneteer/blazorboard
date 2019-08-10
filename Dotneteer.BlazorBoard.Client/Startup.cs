@@ -12,6 +12,7 @@ namespace Dotneteer.BlazorBoard.Client
         {
             services.AddSingleton<IThemingService<ThemeProps>, ThemingService<ThemeProps>>();
             services.AddSingleton<IDemoMetadataService, DemoMetadataService>();
+            services.AddSingleton<IBlazorBoardStateService, BlazorBoardStateService>();
         }
 
         public void Configure(IComponentsApplicationBuilder app)

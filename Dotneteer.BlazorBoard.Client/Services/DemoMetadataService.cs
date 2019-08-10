@@ -1,6 +1,7 @@
 ﻿using Dotneteer.BlazorBoard.Client.Core;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Dotneteer.BlazorBoard.Client.Services
 {
@@ -30,5 +31,23 @@ namespace Dotneteer.BlazorBoard.Client.Services
             return _metadata ?? throw new InvalidOperationException(
                 "Demo metadata has not been registered yet.");
         }
+
+        /// <summary>
+        /// Gets the demo metadata according to the specified ID
+        /// </summary>
+        /// <param name="id">Demo id</param>
+        /// <returns></returns>
+        public DemoMetadata GetDemo(string id) 
+            => _metadata.FirstOrDefault(d => d.Id == id);
+
+        /// <summary>
+        /// Gets the metadata according to the specified demo and scenario
+        /// </summary>
+        /// <param name="demoId"></param>
+        /// <param name="scenarioId"></param>
+        /// <returns>Scenario metadata</returns>
+        public ScenarioMetadata GetScenario(string demoId, string scenarioId) 
+            => _metadata.FirstOrDefault(d => d.Id == demoId)
+                ?.Scenarios.FirstOrDefault(s => s.Id == scenarioId);
     }
 }

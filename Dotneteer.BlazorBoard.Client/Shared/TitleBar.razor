@@ -1,102 +1,74 @@
 ﻿@inject IThemingService<ThemeProps> ThemingService
-@inject IDemoMetadataService DemoMetadataService
+
+@inherits  StateAwareComponentBase
 
 <div class="title-bar-component">
     <h1>Blazor Board</h1>
     <RadzenDropDown 
         Placeholder="Select Demo..."
-        Data="@Demos"
+        Data="@StateService.State.Demos"
         TextProperty="DisplayName"
         ValueProperty="Id"
-        SelectedItem="@CurrentDemo"
-        Change="OnDemoChanged"
+        SelectedItem="@StateService.State.SelectedDemo"
+        Change="@(item => StateService.SelectDemo(item.ToString()))"
         Style="margin-left: 16px; width: 400px; flex-shrink: 0;" />
     <RadzenDropDown
         Placeholder="Scenario..."
-        Data="@Scenarios"
+        Data="@StateService.State.Scenarios"
         TextProperty="DisplayName"
         ValueProperty="Id"
-        SelectedItem="@CurrentScenario"
-        Change="OnScenarioChanged"
+        SelectedItem="@StateService.State.SelectedScenario"
+        Change="@(item => StateService.SelectScenario(item.ToString()))"
         Style="margin-left: 16px; width: 200px; flex-shrink: 0;" />
     <div style="justify-content: flex-end; display: flex; width: 100%;">
         <p>Theme:</p>
         <RadzenDropDown
-            Data="@Themes"
+            Data="@StateService.State.Themes"
             TextProperty="DisplayName"
             ValueProperty="Id"
             Style="width: 120px;"
-            SelectedItem="@CurrentTheme"
+            SelectedItem="@StateService.State.SelectedTheme"
             Change="OnThemeChanged" />
     </div>
 </div>
 
-@code {
+@code {     
 
-    List<ComboDataItem> Demos;
-    ComboDataItem CurrentDemo;
-
-    List<ComboDataItem> Scenarios;
-    ComboDataItem CurrentScenario;
-
-    List<ComboDataItem> Themes;
-    ComboDataItem CurrentTheme;
-
-    protected override void OnInit()
+    /// <summary>
+    /// Set the new list of scenarios when a new demo is selected
+    /// </summary>
+    protected override void OnSelectedDemoChanged(ComboDataItem selectedDemo)
     {
-        var metadata = DemoMetadataService.GetDemoMetadata();
-        Demos = metadata
-            .Select(m => new ComboDataItem(m.Id, m.Title))
-            .ToList();
-        if (Demos.Count > 0)
-        {
-            CurrentDemo = Demos[0];
-            OnDemoChanged(CurrentDemo.Id);
-        }
-
-        Themes = ThemingService.GetRegisteredThemes()
-            .Select(t => new ComboDataItem(t.Id, t.DisplayName))
-            .ToList();
-        CurrentTheme = Themes.FirstOrDefault(t => t.Id == ThemingService.GetActiveTheme().Id);
-    }
-
-    private void OnDemoChanged(object item)
-    {
-        var demo = Demos.FirstOrDefault(cb => cb.Id == item.ToString());
-        if (demo != null)
-        {
-            CurrentDemo = demo;
-        }
-
-        var metadata = DemoMetadataService.GetDemoMetadata();
-        var demoMetadata = metadata.FirstOrDefault(md => md.Id == item.ToString());
+        if (selectedDemo == null) return;
+        var demoMetadata = DemoMetadataService.GetDemo(selectedDemo.Id);
         if (demoMetadata == null) return;
-
-        Scenarios = demoMetadata.Scenarios
+        var scenarios = demoMetadata.Scenarios
             .Select(s => new ComboDataItem(s.Id, s.Title))
             .ToList();
-        if (Scenarios.Count > 0)
-        {
-            CurrentScenario = Scenarios[0];
-        }
+        StateService.SetScenarioList(scenarios);
     }
 
-    private void OnScenarioChanged(object item)
+    /// <summary>
+    /// Set the new list of source files when a new scenario is slected
+    /// </summary>
+    protected override void OnSelectedScenarioChanged(ComboDataItem selectedScenario)
     {
-        var scenario = Scenarios.FirstOrDefault(s => s.Id == item.ToString());
-        if (scenario != null)
-        {
-            CurrentScenario = scenario;
-        }
+        if (selectedScenario == null) return;
+        var scenarioMetadata = DemoMetadataService
+            .GetScenario(State.SelectedDemoId, selectedScenario.Id);
+        if (scenarioMetadata == null) return;
+        var sourceFiles = scenarioMetadata.SourceFiles
+            .Select(s => new ComboDataItem(s.Name, s.Title))
+            .ToList();
+        StateService.SetSourceFileList(sourceFiles);
     }
 
+    /// <summary>
+    /// Respond to theme changes
+    /// </summary>
     private void OnThemeChanged(object item)
     {
-        var theme = Themes.FirstOrDefault(cb => cb.Id == item.ToString());
-        if (theme != null)
-        {
-            ThemingService.SetTheme(theme.Id);
-            CurrentTheme = theme;
-        }
+        StateService.SelectTheme(item.ToString());
+        ThemingService.SetTheme(item.ToString());
     }
 }
