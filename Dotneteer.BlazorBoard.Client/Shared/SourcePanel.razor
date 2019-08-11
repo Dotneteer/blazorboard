@@ -6,7 +6,10 @@
             @foreach (var sourceFile in State.SourceFiles)
             {
                 <RadzenTabsItem Text="@sourceFile.Id" Selected="@(State.SelectedSourceFileName == sourceFile.Id)">
-                    <SourceFile />
+                    <SourceFile
+                        DemoId="@State.SelectedDemoId" 
+                        ScenarioId="@State.SelectedScenarioId"
+                        SourceFileName="@State.SelectedSourceFileName"/>
                 </RadzenTabsItem>
             }
         </Tabs>
@@ -32,6 +35,9 @@
         StateHasChanged();
     }
 
+    /// <summary>
+    /// Display the source file in the current tab
+    /// </summary>
     private void OnTabChange(int selectedTab)
     {
         StateService.SelectSourceFile(State.SourceFiles[selectedTab].Id);

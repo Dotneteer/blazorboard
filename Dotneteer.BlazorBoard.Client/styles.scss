@@ -1,7 +1,4 @@
 ﻿// --- Variables
-$shell-canvas-background-color: #202020;
-$title-bar-background-color: #282828;
-$title-color: #f89406;
 $status-bar-background-color: #007acc;
 $source-panel-background-color: #383838;
 $preview-panel-background-color: #606060;
@@ -34,7 +31,7 @@ html, body {
     flex-direction: column;
     flex-shrink: 0;
     height: 100%;
-    background-color: $shell-canvas-background-color;
+    background-color: var(--app-background-color);
     user-select: none;
 
     &.vertical-resize {
@@ -60,11 +57,12 @@ html, body {
         flex-shrink: 0;
         margin: -4px 0 0 0;
         font-size: 1.6em;
-        color: $title-color;
+        color: var(--title-color);
     }
 
     & p {
         margin: 6px 12px 0 12px;
+        color: var(--title-label-color);
 
         &.extra-left {
             margin-left: 16px;
@@ -89,7 +87,7 @@ html, body {
     height: 100%;
     width: 50%;
     padding: 4px 0 4px 4px;
-    background-color: $source-panel-background-color;
+    background-color: var(--source-panel-background-color);
 }
 
 .source-file-component {

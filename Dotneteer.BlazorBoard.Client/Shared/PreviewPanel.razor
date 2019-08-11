@@ -14,8 +14,10 @@
 
     protected override void OnParametersSet()
     {
+        if (TypeName == null) return;
         var componentType = Type.GetType(TypeName);
-        if (componentType != null)
+        if (componentType == null) return;
+
         CustomRender = b =>
         {
             b.OpenComponent(0, componentType);
