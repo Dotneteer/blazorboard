@@ -26,6 +26,7 @@ namespace Dotneteer.BlazorBoard.Client.Services
         /// </summary>
         public void InitAppState(
             List<ComboDataItem> themes,
+            List<ComboDataItem> fontSizes,
             List<ComboDataItem> demos,
             List<ComboDataItem> scenarios,
             List<ComboDataItem> sourceFiles)
@@ -36,6 +37,8 @@ namespace Dotneteer.BlazorBoard.Client.Services
             {
                 Themes = themes ?? throw new ArgumentNullException(nameof(themes)),
                 SelectedThemeId = (themes?.Count ?? -1) > 0 ? themes[0].Id : null,
+                FontSizes = fontSizes ?? throw new ArgumentNullException(nameof(fontSizes)),
+                SelectedFontSizeId = (fontSizes?.Count ?? -1) > 0 ? fontSizes[0].Id : null,
                 Demos = demos ?? throw new ArgumentNullException(nameof(demos)),
                 SelectedDemoId = (demos?.Count ?? -1) > 0 ? demos[0].Id : null,
                 Scenarios = scenarios ?? throw new ArgumentNullException(nameof(scenarios)),
@@ -89,6 +92,29 @@ namespace Dotneteer.BlazorBoard.Client.Services
         /// </summary>
         public event EventHandler<StateChangedEventArgs> SelectedThemeChanged;
 
+        /// <summary>
+        /// Selects a new font size
+        /// </summary>
+        /// <param name="fontSizeId">ID of the new font size</param>
+        public void SelectFontSize(string fontSizeId)
+        {
+            if (State.SelectedFontSizeId == fontSizeId) return;
+            var oldState = State;
+            State = State.Clone(s => s.SelectedFontSizeId = fontSizeId);
+            var args = new StateChangedEventArgs(oldState, State);
+            AppStateChanged?.Invoke(this, args);
+            SelectedFontSizeChanged?.Invoke(this, args);
+        }
+
+        /// <summary>
+        /// This event is raised whenever the current font size changes
+        /// </summary>
+        public event EventHandler<StateChangedEventArgs> SelectedFontSizeChanged;
+
+        /// <summary>
+        /// Sets the list of demos
+        /// </summary>
+        /// <param name="demos">List of demos</param>
         public void SetDemoList(List<ComboDataItem> demos)
         {
             if (State.Demos == demos) return;

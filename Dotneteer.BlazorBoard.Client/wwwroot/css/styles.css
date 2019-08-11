@@ -55,7 +55,7 @@ html, body {
   flex-shrink: 1;
   height: 100%;
   width: 50%;
-  padding: 4px 0 4px 4px;
+  padding: 6px;
   background-color: var(--source-panel-background-color); }
 
 .source-file-component {
@@ -77,44 +77,8 @@ html, body {
   width: 100%;
   overflow-x: hidden;
   z-index: 10;
-  background-color: #606060; }
-
-.status-bar-component {
-  display: flex;
-  flex-shrink: 0;
-  height: 24px;
-  color: white;
-  box-sizing: border-box;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.8em;
-  background-color: #007acc; }
-
-.splitter-component {
-  display: flex;
-  flex-shrink: 0;
-  background-color: #282828; }
-  .splitter-component.horizontal {
-    flex-direction: row;
-    width: 6px;
-    height: 100%; }
-  .splitter-component.cursor-horizontal {
-    cursor: ew-resize; }
-  .splitter-component.vertical {
-    flex-direction: column;
-    height: 6px; }
-  .splitter-component.cursor-vertical {
-    cursor: ns-resize; }
-  .splitter-component .handle {
-    justify-content: center;
-    align-self: center;
-    background-color: #404040; }
-    .splitter-component .handle.handle-horizontal {
-      width: 6px;
-      height: 64px; }
-    .splitter-component .handle.handle-vertical {
-      height: 6px;
-      width: 64px; }
+  background-color: var(--preview-panel-background-color);
+  padding: var(--preview-panel-padding); }
 
 .simple-component {
   padding: 12px;

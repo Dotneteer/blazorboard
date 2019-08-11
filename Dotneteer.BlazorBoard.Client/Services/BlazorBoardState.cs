@@ -26,6 +26,21 @@ namespace Dotneteer.BlazorBoard.Client.Core
         public ComboDataItem SelectedTheme => Themes.FirstOrDefault(t => t.Id == SelectedThemeId);
 
         /// <summary>
+        /// The available fons sizes
+        /// </summary>
+        public List<ComboDataItem> FontSizes { get; set; }
+
+        /// <summary>
+        /// The ID of the selected font size
+        /// </summary>
+        public string SelectedFontSizeId { get; set; }
+
+        /// <summary>
+        /// The selected font size item
+        /// </summary>
+        public ComboDataItem SelectedFontSize => FontSizes.FirstOrDefault(t => t.Id == SelectedFontSizeId);
+
+        /// <summary>
         /// The available demo items
         /// </summary>
         public List<ComboDataItem> Demos { get; set; }
@@ -80,6 +95,8 @@ namespace Dotneteer.BlazorBoard.Client.Core
             {
                 Themes = new List<ComboDataItem>(Themes),
                 SelectedThemeId = SelectedThemeId,
+                FontSizes = new List<ComboDataItem>(FontSizes),
+                SelectedFontSizeId = SelectedFontSizeId,
                 Demos = new List<ComboDataItem>(Demos),
                 SelectedDemoId = SelectedDemoId,
                 Scenarios = new List<ComboDataItem>(Scenarios),

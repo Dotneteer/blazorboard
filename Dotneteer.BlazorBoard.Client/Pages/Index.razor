@@ -6,7 +6,6 @@
     <div class="app-container-component" style="@ThemeStyle">
         <Titlebar></Titlebar>
         <MainPanel></MainPanel>
-        <Statusbar></Statusbar>
     </div>
 
 @code
@@ -31,6 +30,12 @@
         var themes = ThemingService.GetRegisteredThemes()
             .Select(t => new ComboDataItem(t.Id, t.DisplayName))
             .ToList();
+        var fontSizes = new List<ComboDataItem>
+        {
+            new ComboDataItem("14px", "Small"),
+            new ComboDataItem("18px", "Medium"),
+            new ComboDataItem("24px", "Large"),
+        };
         var demos = metadata
             .Select(m => new ComboDataItem(m.Id, m.Title))
             .ToList();
@@ -42,7 +47,7 @@
             : new List<ComboDataItem>();
 
         // --- Now, init app state
-        StateService.InitAppState(themes, demos, scenarios, sourceFiles);
+        StateService.InitAppState(themes, fontSizes, demos, scenarios, sourceFiles);
     }
 
     private void OnThemeChanged(object sender, EventArgs e)

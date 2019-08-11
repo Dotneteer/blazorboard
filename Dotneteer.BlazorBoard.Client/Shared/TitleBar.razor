@@ -21,14 +21,20 @@
         Change="@(item => StateService.SelectScenario(item.ToString()))"
         Style="margin-left: 16px; width: 200px; flex-shrink: 0;" />
     <div style="justify-content: flex-end; display: flex; width: 100%;">
+        <p>Font:</p>
+        <RadzenDropDown Data="@StateService.State.FontSizes"
+                        TextProperty="DisplayName"
+                        ValueProperty="Id"
+                        Style="width: 100px;"
+                        SelectedItem="@StateService.State.SelectedFontSize"
+                        Change="@(item => StateService.SelectFontSize(item.ToString()))" />
         <p>Theme:</p>
-        <RadzenDropDown
-            Data="@StateService.State.Themes"
-            TextProperty="DisplayName"
-            ValueProperty="Id"
-            Style="width: 120px;"
-            SelectedItem="@StateService.State.SelectedTheme"
-            Change="OnThemeChanged" />
+        <RadzenDropDown Data="@StateService.State.Themes"
+                        TextProperty="DisplayName"
+                        ValueProperty="Id"
+                        Style="width: 120px;"
+                        SelectedItem="@StateService.State.SelectedTheme"
+                        Change="OnThemeChanged" />
     </div>
 </div>
 

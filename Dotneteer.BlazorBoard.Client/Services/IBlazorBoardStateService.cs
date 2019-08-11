@@ -25,6 +25,7 @@ namespace Dotneteer.BlazorBoard.Client.Services
         /// </summary>
         void InitAppState(
             List<ComboDataItem> themes, 
+            List<ComboDataItem> fontSizes,
             List<ComboDataItem> demos, 
             List<ComboDataItem> scenarios,
             List<ComboDataItem> sourceFiles);
@@ -50,6 +51,17 @@ namespace Dotneteer.BlazorBoard.Client.Services
         /// This event is raised whenever the current theme changes
         /// </summary>
         event EventHandler<StateChangedEventArgs> SelectedThemeChanged;
+
+        /// <summary>
+        /// Selects a new font size
+        /// </summary>
+        /// <param name="fontSizeId">ID of the new font size</param>
+        void SelectFontSize(string themeId);
+
+        /// <summary>
+        /// This event is raised whenever the current font size changes
+        /// </summary>
+        event EventHandler<StateChangedEventArgs> SelectedFontSizeChanged;
 
         /// <summary>
         /// Sets the list of demos

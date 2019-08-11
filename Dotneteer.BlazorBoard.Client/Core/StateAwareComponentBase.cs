@@ -44,6 +44,7 @@ namespace Dotneteer.BlazorBoard.Client.Core
             StateService.SelectedScenarioChanged += OnSelectedScenarioChangedInternal;
             StateService.SourceFileListChanged += OnSourceFileListChangedInternal;
             StateService.SelectedSourceFileChanged += OnSelectedSourceFileChangedInternal;
+            StateService.SelectedFontSizeChanged += OnSelectedFontSizeChangedInternal;
         }
 
         /// <summary>
@@ -60,6 +61,7 @@ namespace Dotneteer.BlazorBoard.Client.Core
             StateService.SelectedScenarioChanged -= OnSelectedScenarioChangedInternal;
             StateService.SourceFileListChanged -= OnSourceFileListChangedInternal;
             StateService.SelectedSourceFileChanged -= OnSelectedSourceFileChangedInternal;
+            StateService.SelectedFontSizeChanged -= OnSelectedFontSizeChangedInternal;
         }
 
         /// <summary>
@@ -134,6 +136,14 @@ namespace Dotneteer.BlazorBoard.Client.Core
         {
         }
 
+        /// <summary>
+        /// Override this method to handle the SelectedFontSizeChanged event
+        /// </summary>
+        /// <param name="selectedFontSize">Selected font size item</param>
+        protected virtual void OnSelectedFontSizeChanged(ComboDataItem selectedFontSize)
+        {
+        }
+
         #region Helpers
 
         private void OnAppStateChangedInternal(object sender, StateChangedEventArgs e)
@@ -179,6 +189,11 @@ namespace Dotneteer.BlazorBoard.Client.Core
         private void OnSelectedSourceFileChangedInternal(object sender, StateChangedEventArgs e)
         {
             OnSelectedSourceFileChanged(e.NewState.SelectedSourceFile);
+        }
+
+        private void OnSelectedFontSizeChangedInternal(object sender, StateChangedEventArgs e)
+        {
+            OnSelectedFontSizeChanged(e.NewState.SelectedFontSize);
         }
 
         #endregion

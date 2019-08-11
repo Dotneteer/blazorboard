@@ -27,6 +27,7 @@
 
     protected override void OnInit()
     {
+        base.OnInit();
         ThemingService.ThemeChanged += OnThemeChanged;
         EditorModel = new EditorModel
         {
@@ -39,6 +40,7 @@
     {
         if (!_alreadyRendered)
         {
+            Console.WriteLine("Rendering SourceFile...");
             var ext = Path.GetExtension(State.SelectedSourceFileName).ToLower();
             var filePath = $"{UriHelper.GetBaseUri()}demos/{DemoId}/{ScenarioId}/{SourceFileName}.txt";
             if (!s_SourceCache.TryGetValue(filePath, out var bodyText))
@@ -89,6 +91,15 @@
     {
         await JSRuntime.InvokeAsync<object>("BlazorBoardExtensions.setTheme",
             ThemingService.GetProperty(p => p.EditorTheme));
+    }
+
+    protected override void OnSelectedFontSizeChanged(ComboDataItem selectedFontSize)
+    {
+        Console.WriteLine($"Font size changed: {selectedFontSize.Id}");
+        EditorModel.FontSize = selectedFontSize.Id;
+        //EditorModel.Id = $"BlazorMonaco_{Guid.NewGuid()}";
+        _alreadyRendered = false;
+        StateHasChanged();
     }
 
     public override void Dispose()

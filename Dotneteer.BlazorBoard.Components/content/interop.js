@@ -1,27 +1,24 @@
 ﻿(function () {
     const blazorBoardExtensions = "BlazorBoardExtensions";
 
-    const blazorEditors = [];
-
     const extensionObject = {
         // --- Monaco editor interop methods
         editorInitialize: (editorModel) => {
-            let thisEditor = monaco.editor.create(document.getElementById(editorModel.id), {
+            var element = document.getElementById(editorModel.id);
+            var child = element.lastElementChild;
+            while (child) {
+                element.removeChild(child);
+                child = element.lastElementChild;
+            }
+            monaco.editor.create(element, {
                 value: editorModel.script,
                 language: editorModel.language,
+                fontSize: editorModel.fontSize,
                 automaticLayout: true,
                 readOnly: true,
                 cursorStyle: "line",
                 cursorWidth: 0
             });
-
-            if (blazorEditors.find(e => e.id === editorModel.id)) {
-                console.error(`Refused to register duplicate editor ${editorModel.id}`);
-            }
-            else {
-                console.debug(`Registered new editor ${editorModel.id}`);
-                blazorEditors.push({ id: editorModel.id, editor: thisEditor });
-            }
         },
 
         setTheme: (themeName) => { monaco.editor.setTheme(themeName); },
