@@ -20,10 +20,10 @@
   </ItemGroup>
   
   <ItemGroup>
-    <Folder Include="wwwroot\demos\" />
+    <Folder Include="Demos\01_Hello\Scenarios\" />
   </ItemGroup>
   
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="xcopy $(ProjectDir)Demos $(ProjectDir)wwwroot\demos /S /Y&#xD;&#xA;" />
+    <Exec Command="for /r $(ProjectDir)..\Dotneteer.BlazorBoard.Server\wwwroot\demos %25%25i in (*.*) do del &quot;%25%25i&quot;&#xD;&#xA;xcopy $(ProjectDir)Demos $(ProjectDir)..\Dotneteer.BlazorBoard.Server\wwwroot\demos /S /Y&#xD;&#xA;for /r $(ProjectDir)..\Dotneteer.BlazorBoard.Server\wwwroot\demos %25%25i in (*.razor) do ren &quot;%25%25i&quot; *.razor.txt&#xD;&#xA;" />
   </Target>
 </Project>

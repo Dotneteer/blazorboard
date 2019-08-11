@@ -1,27 +1,24 @@
-﻿@inject IJSRuntime JSRuntime
+﻿@using System.IO
+
+@inject IJSRuntime JSRuntime
 @inject IThemingService<ThemeProps> ThemingService
-@implements  IDisposable
+@inject HttpClient HttpClient
+@inject IUriHelper UriHelper
+@inherits StateAwareComponentBase
 
 <div class="source-file-component" id="@EditorModel.Id">
 </div>
 
 @code {
-    [Parameter]
-    string Script { get; set; }
-
     bool _alreadyRendered = false;
     EditorModel EditorModel;
 
     protected override void OnInit()
     {
         ThemingService.ThemeChanged += OnThemeChanged;
-    }
-
-    protected override void OnParametersSet()
-    {
         EditorModel = new EditorModel
         {
-            Script = Script,
+            Script = "// --- Comment",
             Language = "csharp"
         };
     }
@@ -30,6 +27,41 @@
     {
         if (!_alreadyRendered)
         {
+            var ext = Path.GetExtension(State.SelectedSourceFileName).ToLower();
+            var filePath = $"{UriHelper.GetBaseUri()}demos/{State.SelectedDemoId}/{State.SelectedScenarioId}/{State.SelectedSourceFileName}.txt";
+            var response = await HttpClient.GetAsync(filePath);
+            var bodyText = $"// Cannot read {filePath}";
+            if (response.IsSuccessStatusCode)
+            {
+                bodyText = await response.Content.ReadAsStringAsync();
+            }
+            var type = "razor";
+            switch (ext)
+            {
+                case ".cs":
+                    type = "csharp";
+                    break;
+                case ".js":
+                    type = "javascript";
+                    break;
+                case ".ts":
+                    type = "typescript";
+                    break;
+                case ".htm":
+                case ".html":
+                    type = "html";
+                    break;
+                case ".css":
+                    type = "css";
+                    break;
+                case ".scss":
+                case ".sass":
+                    type = "scss";
+                    break;
+            }
+            EditorModel.Script = bodyText;
+            EditorModel.Language = type;
+
             await JSRuntime.InvokeAsync<object>("BlazorBoardExtensions.editorInitialize", EditorModel);
             await JSRuntime.InvokeAsync<object>("BlazorBoardExtensions.setTheme",
                 ThemingService.GetProperty(p => p.EditorTheme));
@@ -43,8 +75,9 @@
             ThemingService.GetProperty(p => p.EditorTheme));
     }
 
-    public void Dispose()
+    public override void Dispose()
     {
+        base.Dispose();
         ThemingService.ThemeChanged -= OnThemeChanged;
     }
 }

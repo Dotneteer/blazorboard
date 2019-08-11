@@ -18,10 +18,10 @@ namespace Dotneteer.BlazorBoard.Client.Core
         /// </summary>
         public string Title { get; }
 
-        public SourceFileAttribute(string name, string title)
+        public SourceFileAttribute(string name, string title = null)
         {
             Name = name;
-            Title = title;
+            Title = title ?? name;
         }
     }
 }

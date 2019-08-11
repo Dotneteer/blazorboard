@@ -1,13 +1,12 @@
 ﻿@inherits  StateAwareComponentBase
 
 <div @ref="@Element" class="source-panel-component" style="width: @Width">
-    <RadzenTabs>
-        <Tabs>
+    <RadzenTabs @key="@State.SourceFiles" Change="OnTabChange">
+        <Tabs >
             @foreach (var sourceFile in State.SourceFiles)
             {
-                Console.WriteLine($"Render: {sourceFile.Id}");
                 <RadzenTabsItem Text="@sourceFile.Id" Selected="@(State.SelectedSourceFileName == sourceFile.Id)">
-                    <SourceFile Script="@($"// This is {sourceFile.Id}")" />
+                    <SourceFile />
                 </RadzenTabsItem>
             }
         </Tabs>
@@ -25,9 +24,16 @@
     /// </summary>
     public ElementRef Element;
 
+    /// <summary>
+    /// We need to propagate state change
+    /// </summary>
     protected override void OnSelectedSourceFileChanged(ComboDataItem selectedSourceFile)
     {
-        Console.WriteLine($"Source file changed: {selectedSourceFile.Id}");
         StateHasChanged();
+    }
+
+    private void OnTabChange(int selectedTab)
+    {
+        StateService.SelectSourceFile(State.SourceFiles[selectedTab].Id);
     }
 }

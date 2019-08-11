@@ -6,7 +6,6 @@
     const extensionObject = {
         // --- Monaco editor interop methods
         editorInitialize: (editorModel) => {
-            console.log(`Registering new editor ${editorModel.id}...`);
             let thisEditor = monaco.editor.create(document.getElementById(editorModel.id), {
                 value: editorModel.script,
                 language: editorModel.language,
