@@ -1,7 +1,7 @@
 ﻿@using Css
 @inject IJSRuntime JSRuntime
 
-<div @ref="@Element" class="@SplitterCss"
+<div @ref="Element" @ref:suppressField class="@SplitterCss"
     @onpointerdown="OnPointerDown"
     @onpointermove="OnPointerMove"
     @onpointerup="OnPointerUp"
@@ -12,24 +12,24 @@
 @code {
 
     [Parameter]
-    bool Horizontal { get; set; }
+    public bool Horizontal { get; set; }
 
     [Parameter]
-    bool IsMoving { get; set; }
+    public bool IsMoving { get; set; }
 
     [Parameter]
-    EventCallback StartSizing { get; set; }
+    public EventCallback StartSizing { get; set; }
 
     [Parameter]
-    EventCallback<double> Sizing { get; set; }
+    public EventCallback<double> Sizing { get; set; }
 
     [Parameter]
-    EventCallback EndSizing { get; set; }
+    public EventCallback EndSizing { get; set; }
 
     string SplitterCss;
     string HandleCss;
 
-    ElementRef Element;
+    ElementReference Element;
 
     bool _dragMode;
     double _capturedPosition;

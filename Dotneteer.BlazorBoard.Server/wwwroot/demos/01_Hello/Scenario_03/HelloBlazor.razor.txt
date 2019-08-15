@@ -2,12 +2,12 @@
     <h1>Hello, Blazor!</h1>
     <h2>Init time: @InitTime</h2>
     <h2>Refresh time: <span class="@RefreshedCss">@RefreshTime</span></h2>
-    <button onclick="@(e => RefreshTime = DateTime.Now)">
+    <Button @onclick="@(e => RefreshTime = DateTime.Now)">
         Refresh
-    </button>
-    <button onclick="@(e => RefreshTime = InitTime = DateTime.Now)">
+    </Button>
+    <Button @onclick="@(e => RefreshTime = InitTime = DateTime.Now)">
         Reset
-    </button>
+    </Button>
 </div>
 
 @code {
@@ -25,6 +25,6 @@
     }
     string RefreshedCss;
 
-    protected override void OnInit()
+    protected override void OnInitialized()
         => RefreshTime = InitTime = DateTime.Now;
 }

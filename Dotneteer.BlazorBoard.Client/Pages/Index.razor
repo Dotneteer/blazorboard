@@ -4,7 +4,7 @@
 @inherits StateAwareComponentBase
 
     <div class="app-container-component" style="@ThemeStyle">
-        <Titlebar></Titlebar>
+        <TitleBar></TitleBar>
         <MainPanel></MainPanel>
     </div>
 
@@ -12,9 +12,9 @@
 {
     private string ThemeStyle;
 
-    protected override void OnInit()
+    protected override void OnInitialized()
     {
-        base.OnInit();
+        base.OnInitialized();
 
         // --- Set up themes
         ThemingService.RegisterTheme(new ThemeInfo<ThemeProps>("dark", "Dark", StockThemes.DarkTheme));

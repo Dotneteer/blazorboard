@@ -1,6 +1,6 @@
 ﻿@inherits  StateAwareComponentBase
 
-<div @ref="@Element" class="source-panel-component" style="width: @Width">
+<div @ref="Element" @ref:suppressField class="source-panel-component" style="width: @Width">
     <RadzenTabs @key="@State.SourceFiles" Change="OnTabChange">
         <Tabs >
             @foreach (var sourceFile in State.SourceFiles)
@@ -19,13 +19,13 @@
 @code 
 {
     [Parameter]
-    string Width { get; set; }
+    public string Width { get; set; }
 
     /// <summary>
     /// The parent panel can access the native HTML element of 
     /// this component
     /// </summary>
-    public ElementRef Element;
+    public ElementReference Element;
 
     /// <summary>
     /// We need to propagate state change

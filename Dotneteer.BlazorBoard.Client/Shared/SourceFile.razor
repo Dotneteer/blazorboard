@@ -14,20 +14,20 @@
     static Dictionary<string, string> s_SourceCache = new Dictionary<string, string>();
 
     [Parameter]
-    string DemoId { get; set; }
+    public string DemoId { get; set; }
 
     [Parameter]
-    string ScenarioId { get; set; }
+    public string ScenarioId { get; set; }
 
     [Parameter]
-    string SourceFileName { get; set; }
+    public string SourceFileName { get; set; }
 
     bool _alreadyRendered = false;
     EditorModel EditorModel;
 
-    protected override void OnInit()
+    protected override void OnInitialized()
     {
-        base.OnInit();
+        base.OnInitialized();
         ThemingService.ThemeChanged += OnThemeChanged;
         EditorModel = new EditorModel
         {
@@ -98,7 +98,6 @@
     {
         Console.WriteLine($"Font size changed: {selectedFontSize.Id}");
         EditorModel.FontSize = selectedFontSize.Id;
-        //EditorModel.Id = $"BlazorMonaco_{Guid.NewGuid()}";
         _alreadyRendered = false;
         StateHasChanged();
     }

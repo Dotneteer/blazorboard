@@ -6,6 +6,6 @@
     DateTime InitTime;
     DateTime RefreshTime;
 
-    protected override void OnInit()
+    protected override void OnInitialized()
         => RefreshTime = InitTime = DateTime.Now;
 }

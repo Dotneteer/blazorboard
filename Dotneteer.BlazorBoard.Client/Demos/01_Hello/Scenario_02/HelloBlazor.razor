@@ -1,15 +1,15 @@
 ﻿<h1>Hello, Blazor!</h1>
 <h2>Init time: @InitTime</h2>
 <h2>Refresh time: @RefreshTime</h2>
-<button onclick="@OnButtonClicked">Refresh</button>
+<Button @onclick="@OnButtonClicked">Refresh</Button>
 
 @code {
     DateTime InitTime;
     DateTime RefreshTime;
 
-    protected override void OnInit()
+    protected override void OnInitialized()
         => RefreshTime = InitTime = DateTime.Now;
 
-    private void OnButtonClicked(UIMouseEventArgs args)
+    private void OnButtonClicked()
         => RefreshTime = DateTime.Now;
 }

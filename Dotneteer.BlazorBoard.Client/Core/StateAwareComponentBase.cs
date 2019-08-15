@@ -32,9 +32,9 @@ namespace Dotneteer.BlazorBoard.Client.Core
         /// <summary>
         /// Initialize event listeners
         /// </summary>
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
-            base.OnInit();
+            base.OnInitialized();
             StateService.AppStateChanged += OnAppStateChangedInternal;
             StateService.ThemeListChanged += OnThemeListChangedInternal;
             StateService.SelectedThemeChanged += OnSelectedThemeChangedInternal;
