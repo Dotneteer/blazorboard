@@ -1,10 +1,4 @@
-﻿// --- Variables
-$preview-panel-background-color: #606060;
-$sizer-background-color: #0000f0;
-$tab-bar-background-color: #007acc;
-$source-file-background-color: #f0f0f0;
-
-* {
+﻿* {
     box-sizing: border-box;
 }
 
@@ -96,16 +90,14 @@ html, body {
 
 
 .preview-panel-component {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    flex-shrink: 1;
+    display: block;
     height: 100%;
     width: 100%;
     overflow-x: hidden;
     z-index: 10;
     background-color: var(--preview-panel-background-color);
     padding: var(--preview-panel-padding);
+    user-select: text;
 }
 
 // ============================================================================
@@ -122,6 +114,7 @@ html, body {
 .ui-dropdown {
     border-radius: 0;
     color: var(--field-color);
+    font-size: 1em;
 
     &.ui-dropdown-open {
         background-color: var(--field-background-color);
@@ -136,6 +129,9 @@ html, body {
     }
 
     &-items {
+        & li {
+            font-size: 1em;
+        }
 
         & li.ui-state-highlight {
             background: var(--field-hilite-background-color);
@@ -213,5 +209,26 @@ html, body {
         height: 100%;
         width: 100%;
         padding: 12px;
+    }
+}
+
+
+// ============================================================================
+// Demo specific styles
+// ============================================================================
+.hello-blazor-demo {
+    margin: 8px 16px;
+
+    button {
+        font-size: 1.5em;
+        border: none;
+        background-color: var(--field-hilite-background-color);
+        color: var(--field-color);
+        padding: 2px 16px;
+        cursor: pointer;
+    }
+
+    & .refreshed {
+        background: green;
     }
 }

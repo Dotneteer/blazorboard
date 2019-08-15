@@ -32,10 +32,11 @@
         EditorModel = new EditorModel
         {
             Script = "// No content",
-            Language = "csharp"
+            Language = "csharp",
+            FontSize = State.SelectedFontSize.Id
         };
     }
-
+    
     protected override async void OnAfterRender()
     {
         if (!_alreadyRendered)
