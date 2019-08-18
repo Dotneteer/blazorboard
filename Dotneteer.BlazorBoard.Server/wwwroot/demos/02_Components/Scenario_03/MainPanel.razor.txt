@@ -1,0 +1,7 @@
+﻿<div class="main-panel">
+    <TitleBar Title="Feature Title" Face="feature"></TitleBar>
+    <div class="main-panel-content">
+        <Menu></Menu>
+        <div style="width:100%"></div>
+    </div>
+</div>

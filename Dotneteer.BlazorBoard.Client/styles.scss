@@ -217,6 +217,7 @@ html, body {
 // Demo specific styles
 // ============================================================================
 .hello-blazor-demo {
+    display: block;
     margin: 8px 16px;
 
     button {
@@ -231,4 +232,85 @@ html, body {
     & .refreshed {
         background: green;
     }
+}
+
+.compound-demo {
+    background: silver;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 1;
+    flex-grow: 1;
+    height: 100%
+}
+
+.title-bar {
+    background: orangered;
+    height: 48px;
+    flex-shrink: 0;
+    flex-grow: 0;
+    width: 100%;
+
+    & .demo {
+        padding: 4px 12px;
+    }
+
+    & h3.demo {
+        font-size: 1.5em;
+        color: white;
+    }
+
+    & .feature, &.feature {
+        padding: 2px 12px;
+        background: #007acc;
+    }
+
+    & h3.feature {
+        font-size: 1.2em;
+        color: #e0e0e0;
+    }
+}
+
+.content-region {
+    display: flex;
+    flex-direction: row;
+    flex-shrink: 1;
+    flex-grow: 1;
+    height: 100%;
+    width: 100%;
+}
+
+.menu-bar {
+    display: flex;
+    flex-shrink: 1;
+    flex-grow: 1;
+    width: 120px;
+    height: 100%;
+    background: green;
+}
+
+.main-panel {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 1;
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+}
+
+.status-bar {
+    background: darkblue;
+    color: white;
+    height: 32px;
+    width: 100%;
+}
+
+.main-panel-content {
+    display: flex;
+    flex-direction: row-reverse;
+    flex-shrink: 1;
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+    background: transparent;
 }

@@ -1,7 +1,9 @@
 ﻿<div class="hello-blazor-demo">
     <h1>Hello, Blazor!</h1>
     <h2>Init time: @InitTime</h2>
-    <h2>Refresh time: <span class="@RefreshedCss">@RefreshTime</span></h2>
+    <h2>Refresh time:
+        <span class="@RefreshedCss">@RefreshTime</span>
+    </h2>
     <Button @onclick="@(e => RefreshTime = DateTime.Now)">
         Refresh
     </Button>

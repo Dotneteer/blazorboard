@@ -1,0 +1,7 @@
+﻿<div class="status-bar">
+    <h3>StatusBar</h3>
+</div>
+
+@code {
+
+}

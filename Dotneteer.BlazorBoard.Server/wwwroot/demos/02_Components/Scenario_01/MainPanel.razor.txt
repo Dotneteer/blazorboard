@@ -1,0 +1,7 @@
+﻿<div class="main-panel">
+    <h3>MainPanel</h3>
+</div>
+
+@code {
+
+}
