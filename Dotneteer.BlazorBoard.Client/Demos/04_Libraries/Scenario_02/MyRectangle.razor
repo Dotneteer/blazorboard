@@ -1,0 +1,20 @@
+﻿<div class="my-rectangle-component" style="@_style">
+</div>
+
+@code {
+    [Parameter]
+    public int Width { get; set; } = 100;
+
+    [Parameter]
+    public int Height { get; set; } = 100;
+
+    [Parameter]
+    public string Color { get; set; } = "blue";
+
+    private string _style;
+
+    protected override void OnParametersSet()
+    {
+        _style = $"width: {Width}px; height: {Height}px; background-color: {Color}";
+    }
+}

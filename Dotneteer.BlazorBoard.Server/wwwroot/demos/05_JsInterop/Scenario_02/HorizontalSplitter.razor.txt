@@ -1,0 +1,58 @@
+﻿@inject IJSRuntime JSRuntime
+
+<div @ref="Element" @ref:suppressField class="horizontal-splitter"
+     @onpointerdown="OnPointerDown"
+     @onpointermove="OnPointerMove"
+     @onpointerup="OnPointerUp">
+    <div class="horizontal-handle"></div>
+</div>
+
+@code {
+
+    [Parameter]
+    public EventCallback StartSizing { get; set; }
+
+    [Parameter]
+    public EventCallback<double> Sizing { get; set; }
+
+    [Parameter]
+    public EventCallback EndSizing { get; set; }
+
+    string SplitterCss;
+    string HandleCss;
+
+    ElementReference Element;
+
+    bool _dragMode;
+    double _capturedPosition;
+
+    private async Task OnPointerDown(UIPointerEventArgs e)
+    {
+        if (_dragMode || e.Button != 0) return;
+
+        await JSRuntime.InvokeAsync<bool>(
+            "BlazorBoardExtensions.setPointerCapture", 
+            Element, e.PointerId);
+        _dragMode = true;
+        _capturedPosition = e.ClientX;
+        await StartSizing.InvokeAsync(null);
+
+    }
+
+    private async Task OnPointerMove(UIPointerEventArgs e)
+    {
+        if (!_dragMode) return;
+
+        var movement = e.ClientX - _capturedPosition;
+        await Sizing.InvokeAsync(movement);
+    }
+
+    private async Task OnPointerUp(UIPointerEventArgs e)
+    {
+        _dragMode = false;
+        await JSRuntime.InvokeAsync<bool>(
+            "BlazorBoardExtensions.releasePointerCapture", 
+            Element, e.PointerId);
+        await EndSizing.InvokeAsync(null);
+    }
+}

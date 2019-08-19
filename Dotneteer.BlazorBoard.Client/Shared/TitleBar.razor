@@ -1,5 +1,4 @@
 ﻿@inject IThemingService<ThemeProps> ThemingService
-
 @inherits  StateAwareComponentBase
 
 <div class="title-bar-component">
@@ -11,7 +10,7 @@
         ValueProperty="Id"
         SelectedItem="@StateService.State.SelectedDemo"
         Change="@(item => StateService.SelectDemo(item.ToString()))"
-        Style="margin-left: 16px; width: 320px; flex-shrink: 0;" />
+        Style="margin-left: 16px; width: 280px; flex-shrink: 0;" />
     <RadzenDropDown
         Placeholder="Scenario..."
         Data="@StateService.State.Scenarios"
@@ -19,7 +18,7 @@
         ValueProperty="Id"
         SelectedItem="@StateService.State.SelectedScenario"
         Change="@(item => StateService.SelectScenario(item.ToString()))"
-        Style="margin-left: 16px; width: 240px; flex-shrink: 0;" />
+        Style="margin-left: 16px; width: 280px; flex-shrink: 0;" />
     <div style="justify-content: flex-end; display: flex; width: 100%;">
         <p>Font:</p>
         <RadzenDropDown Data="@StateService.State.FontSizes"

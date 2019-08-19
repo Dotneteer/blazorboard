@@ -21,12 +21,7 @@
     <ProjectReference Include="..\Dotneteer.BlazorBoard.Shared\Dotneteer.BlazorBoard.Shared.csproj" />
   </ItemGroup>
   
-  <ItemGroup>
-    <Folder Include="Demos\04_Community\" />
-    <Folder Include="Demos\05_JsInterop\" />
-  </ItemGroup>
-  
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="for /r $(ProjectDir)..\Dotneteer.BlazorBoard.Server\wwwroot\demos %25%25i in (*.*) do del &quot;%25%25i&quot;&#xD;&#xA;&#xD;&#xA;xcopy $(ProjectDir)Demos\*.razor $(ProjectDir)..\Dotneteer.BlazorBoard.Server\wwwroot\demos /S /Y&#xD;&#xA;xcopy $(ProjectDir)Demos\*.css $(ProjectDir)..\Dotneteer.BlazorBoard.Server\wwwroot\demos /S /Y&#xD;&#xA;xcopy $(ProjectDir)Demos\*.cs $(ProjectDir)..\Dotneteer.BlazorBoard.Server\wwwroot\demos /S /Y&#xD;&#xA;xcopy $(ProjectDir)Demos\*.cs.txt $(ProjectDir)..\Dotneteer.BlazorBoard.Server\wwwroot\demos /S /Y&#xD;&#xA;&#xD;&#xA;for /r $(ProjectDir)..\Dotneteer.BlazorBoard.Server\wwwroot\demos %25%25i in (*.razor) do ren &quot;%25%25i&quot; *.razor.txt&#xD;&#xA;for /r $(ProjectDir)..\Dotneteer.BlazorBoard.Server\wwwroot\demos %25%25i in (*.css) do ren &quot;%25%25i&quot; *.css.txt&#xD;&#xA;for /r $(ProjectDir)..\Dotneteer.BlazorBoard.Server\wwwroot\demos %25%25i in (*.cs) do ren &quot;%25%25i&quot; *.cs.txt&#xD;&#xA;&#xD;&#xA;" />
+    <Exec Command="for /r $(ProjectDir)..\Dotneteer.BlazorBoard.Server\wwwroot\demos %25%25i in (*.*) do del &quot;%25%25i&quot;&#xD;&#xA;&#xD;&#xA;xcopy $(ProjectDir)Demos\*.razor $(ProjectDir)..\Dotneteer.BlazorBoard.Server\wwwroot\demos /S /Y&#xD;&#xA;xcopy $(ProjectDir)Demos\*.css $(ProjectDir)..\Dotneteer.BlazorBoard.Server\wwwroot\demos /S /Y&#xD;&#xA;xcopy $(ProjectDir)Demos\*.cs $(ProjectDir)..\Dotneteer.BlazorBoard.Server\wwwroot\demos /S /Y&#xD;&#xA;xcopy $(ProjectDir)Demos\*.txt $(ProjectDir)..\Dotneteer.BlazorBoard.Server\wwwroot\demos /S /Y&#xD;&#xA;&#xD;&#xA;for /r $(ProjectDir)..\Dotneteer.BlazorBoard.Server\wwwroot\demos %25%25i in (*.razor) do ren &quot;%25%25i&quot; *.razor.txt&#xD;&#xA;for /r $(ProjectDir)..\Dotneteer.BlazorBoard.Server\wwwroot\demos %25%25i in (*.css) do ren &quot;%25%25i&quot; *.css.txt&#xD;&#xA;for /r $(ProjectDir)..\Dotneteer.BlazorBoard.Server\wwwroot\demos %25%25i in (*.cs) do ren &quot;%25%25i&quot; *.cs.txt&#xD;&#xA;&#xD;&#xA;" />
   </Target>
 </Project>

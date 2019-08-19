@@ -1,0 +1,41 @@
+﻿(function () {
+    const blazorBoardExtensions = "BlazorBoardExtensions";
+
+    const extensionObject = {
+        setPointerCapture: (element, pointerId) => {
+            if (element) {
+                element.setPointerCapture(pointerId);
+                return true;
+            } else {
+                return false;
+            }
+        },
+
+        releasePointerCapture: function (element, pointerId) {
+            if (element) {
+                element.releasePointerCapture(pointerId);
+                return true;
+            } else {
+                return false;
+            }
+        },
+
+        getElementDimensions: (element) => {
+            return {
+                width: element.offsetWidth,
+                height: element.offsetHeight
+            };
+        }
+    };
+
+    if (typeof window !== 'undefined' && !window[blazorBoardExtensions]) {
+        window[blazorBoardExtensions] = {
+            ...extensionObject
+        };
+    } else {
+        window[blazorBoardExtensions] = {
+            ...window[blazorBoardExtensions],
+            ...extensionObject
+        };
+    }
+})();

@@ -352,3 +352,39 @@ html, body {
     flex-direction: row;
     flex-wrap: wrap;
 }
+
+.my-rectangle-component {
+    border: 4px solid black;
+}
+
+.splitter-demo {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.frame-panel {
+    display: flex;
+    height: 100%;
+    flex-shrink: 1;
+    flex-grow: 1;
+    width: 50%;
+}
+
+.horizontal-splitter {
+    display: flex;
+    flex-direction: row;
+    flex-shrink: 0;
+    background-color: var(--splitter-background-color);
+    width: var(--splitter-size);
+    height: 100%;
+    cursor: ew-resize;
+}
+ 
+.horizontal-handle {
+    justify-content: center;
+    align-self: center;
+    background-color: var(--splitter-handle-background-color);
+    width: var(--splitter-size);
+    height: var(--splitter-handle-size);
+}

@@ -1,0 +1,32 @@
+﻿<h3>ComboDemo</h3>
+<RadzenDropDown 
+    Data="@_fontSizes"
+    TextProperty="DisplayName"
+    ValueProperty="Id"
+    Style="width: 100px;"
+    SelectedItem="_selectedItem"
+    Change="OnSelectionChange"/>
+
+@code {
+    List<ComboDataItem> _fontSizes;
+    ComboDataItem _selectedItem;
+
+    protected override void OnInitialized()
+    {
+        _fontSizes = new List<ComboDataItem>
+        {
+            new ComboDataItem("14px", "XSmall"),
+            new ComboDataItem("16px", "Small"),
+            new ComboDataItem("18px", "Medium"),
+            new ComboDataItem("20px", "Large"),
+            new ComboDataItem("24px", "XLarge"),
+        };
+        _selectedItem = _fontSizes[2];
+    }
+
+    private void OnSelectionChange(object item)
+    {
+        _selectedItem = _fontSizes.FirstOrDefault(
+            fs => fs.Id == item.ToString());
+    }
+}
