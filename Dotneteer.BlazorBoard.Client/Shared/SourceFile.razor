@@ -41,7 +41,6 @@
     {
         if (!_alreadyRendered)
         {
-            Console.WriteLine("Rendering SourceFile...");
             var ext = Path.GetExtension(State.SelectedSourceFileName).ToLower();
             var filePath = $"{UriHelper.GetBaseUri()}demos/{DemoId}/{ScenarioId}/{SourceFileName}.txt";
             if (!s_SourceCache.TryGetValue(filePath, out var bodyText))

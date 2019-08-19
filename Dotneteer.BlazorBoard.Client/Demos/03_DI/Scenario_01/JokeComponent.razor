@@ -1,0 +1,28 @@
+﻿@inject HttpClient HttpClient
+@inject IUriHelper UriHelper
+
+    <div>
+        <h2>@_joke</h2>
+        <Button @onclick="@(async () => await GetJokeAsync())">
+            Refresh
+        </Button>
+    </div>
+
+@code {
+    private string _joke;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetJokeAsync();
+    }
+
+    private async Task GetJokeAsync()
+    {
+        var requestUri = $"{UriHelper.GetBaseUri()}api/joke";
+        Console.WriteLine(requestUri);
+        var response = await HttpClient.GetAsync(requestUri);
+        _joke = response.IsSuccessStatusCode
+            ? await response.Content.ReadAsStringAsync()
+            : "Error getting a joke. It's not a joke!";
+    }
+}

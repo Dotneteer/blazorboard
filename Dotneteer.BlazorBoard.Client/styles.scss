@@ -314,3 +314,41 @@ html, body {
     height: 100%;
     background: transparent;
 }
+
+.topic-listener {
+    padding: 4px 12px;
+    margin: 4px;
+    width: 100%;
+    border: 2px solid green;
+}
+
+.sender-button {
+    margin: 4px;
+    width: 160px;
+    flex-shrink: 0;
+    flex-grow: 0;
+
+    & button {
+        width: 100%;
+        border: none;
+        color: white;
+        font-size: 1.2em;
+        padding: 4px 8px;
+        outline: none;
+        cursor: pointer;
+    }
+
+    &-life {
+        background: green;
+    }
+
+    &-blazor {
+        background: purple;
+    }
+}
+
+.message-buttons {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
