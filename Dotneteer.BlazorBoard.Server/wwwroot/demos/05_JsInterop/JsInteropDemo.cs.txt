@@ -17,8 +17,8 @@ namespace Dotneteer.BlazorBoard.Client.Demos._05_JsInterop
         public Scenario_02.SplitterDemo Scenario02 { get; set; }
 
         [Scenario("Scenario_03", 3, "JavaScript --> .NET")]
-        [SourceFile("AlertComponent.razor")]
-        [SourceFile("alert-interop.js")]
-        public Scenario_01.AlertComponent Scenario03 { get; set; }
+        [SourceFile("FibonacciComponent.razor")]
+        [SourceFile("fibonacci-interop.js")]
+        public Scenario_03.FibonacciComponent Scenario03 { get; set; }
     }
 }
