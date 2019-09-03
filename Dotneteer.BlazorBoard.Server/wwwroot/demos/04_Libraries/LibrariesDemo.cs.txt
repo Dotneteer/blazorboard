@@ -7,6 +7,7 @@ namespace Dotneteer.BlazorBoard.Client.Demos._04_Libraries
     {
         [Scenario("Scenario_01", 1, "Using a component library")]
         [SourceFile("ComboDemo.razor")]
+        [SourceFile("ComboDataItem.cs")]
         [SourceFile("_Imports.razor")]
         public Scenario_01.ComboDemo Scenario01 { get; set; }
 
