@@ -1,0 +1,67 @@
+﻿@page "/"
+
+@inject IThemingService<ThemeProps> ThemingService
+@inherits StateAwareComponentBase
+
+    <div class="app-container-component" style="@ThemeStyle">
+        <TitleBar></TitleBar>
+        <MainPanel></MainPanel>
+    </div>
+
+@code
+{
+    private string ThemeStyle;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        // --- Set up themes
+        ThemingService.RegisterTheme(new ThemeInfo<ThemeProps>("dark", "Dark", StockThemes.DarkTheme));
+        ThemingService.RegisterTheme(new ThemeInfo<ThemeProps>("light", "Light", StockThemes.LightTheme));
+        ThemingService.ThemeChanged += OnThemeChanged;
+        ThemingService.SetTheme("dark");
+
+        // --- Register demos
+        var metadata = DemoHelper.GetDemos();
+        DemoMetadataService.RegisterDemoMetadata(metadata);
+
+        // --- Collect initial data
+        var themes = ThemingService.GetRegisteredThemes()
+            .Select(t => new ComboDataItem(t.Id, t.DisplayName))
+            .ToList();
+        var fontSizes = new List<ComboDataItem>
+        {
+            new ComboDataItem("14px", "XSmall"),
+            new ComboDataItem("16px", "Small"),
+            new ComboDataItem("18px", "Medium"),
+            new ComboDataItem("20px", "Large"),
+            new ComboDataItem("24px", "XLarge"),
+        };
+        var demos = metadata
+            .Select(m => new ComboDataItem(m.Id, m.Title))
+            .ToList();
+        var scenarios = metadata.Count > 0
+            ? metadata[0].Scenarios.Select(s => new ComboDataItem(s.Id, s.Title)).ToList()
+            : new List<ComboDataItem>();
+        var sourceFiles = scenarios.Count > 0
+            ? metadata[0].Scenarios[0].SourceFiles.Select(s => new ComboDataItem(s.Name, s.Title)).ToList()
+            : new List<ComboDataItem>();
+
+        // --- Now, init app state
+        StateService.InitAppState(themes, fontSizes, demos, scenarios, sourceFiles);
+        StateService.SelectFontSize("18px");
+    }
+
+    private void OnThemeChanged(object sender, EventArgs e)
+    {
+        ThemeStyle = ThemingService.ComposeStyleAttributeFromTheme();
+        StateHasChanged();
+    }
+
+    public override void Dispose()
+    {
+        base.Dispose();
+        ThemingService.ThemeChanged -= OnThemeChanged;
+    }
+}

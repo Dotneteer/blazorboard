@@ -1,0 +1,8 @@
+﻿<div class="compound-demo">
+    <TitleBar></TitleBar>
+    <div class="content-region">
+        <Menu></Menu>
+        <MainPanel></MainPanel>
+    </div>
+    <StatusBar></StatusBar>
+</div>

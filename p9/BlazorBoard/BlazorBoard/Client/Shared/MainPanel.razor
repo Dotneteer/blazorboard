@@ -1,0 +1,70 @@
+﻿@inherits StateAwareComponentBase
+@inject IJSRuntime JSRuntime
+
+<div @ref="Element" class="main-panel-component">
+    <SourcePanel @ref="sourcePanel" Width="@SourcePanelWidth" />
+    <Splitter Horizontal="true"
+        StartSizing="OnStartSizing"
+        Sizing="OnSizing"
+    />
+    <PreviewPanel Width="@PreviewPanelWidth" TypeName="@ComponentTypeName" />
+</div>
+
+@code {
+    string SourcePanelWidth = "50%";
+    string PreviewPanelWidth = "50%";
+
+    string ComponentTypeName;
+
+    SourcePanel sourcePanel;
+    public ElementReference Element { get; set; }
+
+    double _mainPanelSize;
+    double _sourcePanelStartSize;
+
+    /// <summary>
+    /// The user started dragging the splitter
+    /// </summary>
+    private async Task OnStartSizing()
+    {
+        var sourceDims = await JSRuntime.InvokeAsync<ElementDim>(
+            "BlazorBoardExtensions.getElementDimensions",
+            sourcePanel.Element);
+        _sourcePanelStartSize = sourceDims.Width;
+        var mainDims = await JSRuntime.InvokeAsync<ElementDim>(
+            "BlazorBoardExtensions.getElementDimensions",
+            Element);
+        _mainPanelSize = mainDims.Width;
+    }
+
+    protected override void OnParametersSet()
+    {
+        OnSelectedScenarioChanged(State.SelectedScenario);
+    }
+
+    /// <summary>
+    /// The splitter position has changed
+    /// </summary>
+    /// <param name="delta">Relative change to the start position</param>
+    private void OnSizing(double delta)
+    {
+        var newSourcePanelSize = _sourcePanelStartSize + delta;
+        var newPreviewPanelSize = _mainPanelSize - newSourcePanelSize - 6;
+        if (newSourcePanelSize < 100 || newPreviewPanelSize < 100) return;
+        SourcePanelWidth = $"{newSourcePanelSize}px";
+        PreviewPanelWidth = $"{newPreviewPanelSize}px";
+    }
+
+    /// <summary>
+    /// Display the component of the new scenario
+    /// </summary>
+    /// <param name="selectedScenario">The new scenario</param>
+    protected override void OnSelectedScenarioChanged(ComboDataItem selectedScenario)
+    {
+        var scenario = DemoMetadataService.GetScenario(State.SelectedDemoId, State.SelectedScenarioId);
+        if (scenario == null) return;
+
+        ComponentTypeName = scenario.ComponentType.AssemblyQualifiedName;
+        StateHasChanged();
+    }
+}

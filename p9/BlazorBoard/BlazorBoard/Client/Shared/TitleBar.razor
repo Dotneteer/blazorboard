@@ -1,0 +1,79 @@
+﻿@inject IThemingService<ThemeProps> ThemingService
+@inherits  StateAwareComponentBase
+
+<div class="title-bar-component">
+    <h1>Blazor Board</h1>
+    <RadzenDropDown 
+        Placeholder="Select Demo..."
+        Data="@StateService.State.Demos"
+        TextProperty="DisplayName"
+        ValueProperty="Id"
+        SelectedItem="@StateService.State.SelectedDemo"
+        Change="@(item => StateService.SelectDemo(item.ToString()))"
+        Style="margin-left: 16px; width: 280px; flex-shrink: 0;" />
+    <RadzenDropDown
+        Placeholder="Scenario..."
+        Data="@StateService.State.Scenarios"
+        TextProperty="DisplayName"
+        ValueProperty="Id"
+        SelectedItem="@StateService.State.SelectedScenario"
+        Change="@(item => StateService.SelectScenario(item.ToString()))"
+        Style="margin-left: 16px; width: 280px; flex-shrink: 0;" />
+    <div style="justify-content: flex-end; display: flex; width: 100%;">
+        <p>Font:</p>
+        <RadzenDropDown Data="@StateService.State.FontSizes"
+                        TextProperty="DisplayName"
+                        ValueProperty="Id"
+                        Style="width: 100px;"
+                        SelectedItem="@StateService.State.SelectedFontSize"
+                        Change="@(item => StateService.SelectFontSize(item.ToString()))" />
+        <p>Theme:</p>
+        <RadzenDropDown Data="@StateService.State.Themes"
+                        TextProperty="DisplayName"
+                        ValueProperty="Id"
+                        Style="width: 120px;"
+                        SelectedItem="@StateService.State.SelectedTheme"
+                        Change="OnThemeChanged" />
+    </div>
+</div>
+
+@code {     
+
+    /// <summary>
+    /// Set the new list of scenarios when a new demo is selected
+    /// </summary>
+    protected override void OnSelectedDemoChanged(ComboDataItem selectedDemo)
+    {
+        if (selectedDemo == null) return;
+        var demoMetadata = DemoMetadataService.GetDemo(selectedDemo.Id);
+        if (demoMetadata == null) return;
+        var scenarios = demoMetadata.Scenarios
+            .Select(s => new ComboDataItem(s.Id, s.Title))
+            .ToList();
+        StateService.SetScenarioList(scenarios);
+    }
+
+    /// <summary>
+    /// Set the new list of source files when a new scenario is slected
+    /// </summary>
+    protected override void OnSelectedScenarioChanged(ComboDataItem selectedScenario)
+    {
+        if (selectedScenario == null) return;
+        var scenarioMetadata = DemoMetadataService
+            .GetScenario(State.SelectedDemoId, selectedScenario.Id);
+        if (scenarioMetadata == null) return;
+        var sourceFiles = scenarioMetadata.SourceFiles
+            .Select(s => new ComboDataItem(s.Name, s.Title))
+            .ToList();
+        StateService.SetSourceFileList(sourceFiles);
+    }
+
+    /// <summary>
+    /// Respond to theme changes
+    /// </summary>
+    private void OnThemeChanged(object item)
+    {
+        StateService.SelectTheme(item.ToString());
+        ThemingService.SetTheme(item.ToString());
+    }
+}

@@ -1,5 +1,5 @@
 ﻿@inject HttpClient HttpClient
-@inject IUriHelper UriHelper
+@inject NavigationManager UriHelper
 
     <div>
         <h2>@_joke</h2>
@@ -18,7 +18,7 @@
 
     private async Task GetJokeAsync()
     {
-        var requestUri = $"{UriHelper.GetBaseUri()}api/joke";
+        var requestUri = $"{UriHelper.BaseUri}api/joke";
         Console.WriteLine(requestUri);
         var response = await HttpClient.GetAsync(requestUri);
         _joke = response.IsSuccessStatusCode

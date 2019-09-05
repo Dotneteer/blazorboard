@@ -1,0 +1,50 @@
+﻿@inject IJSRuntime JSRuntime
+
+<div @ref="Container" class="splitter-demo">
+    <div @ref="LeftPanel" 
+         class="frame-panel"
+         style="width: @_leftWidth;  background-color: green">
+    </div>
+    <HorizontalSplitter
+        StartSizing="OnStartSizing"
+        Sizing="OnSizing">
+    </HorizontalSplitter>
+    <div @ref="RightPanel"
+         class="frame-panel"
+         style="width: @_rightWidth; background-color: orangered">
+    </div>
+</div>
+
+
+@code {
+    ElementReference Container;
+    ElementReference LeftPanel;
+    ElementReference RightPanel;
+
+    string _leftWidth = "50%";
+    string _rightWidth = "50%";
+
+    private double _startSize;
+    private double _containerSize;
+
+    private async Task OnStartSizing()
+    {
+        var leftDims = await JSRuntime.InvokeAsync<ElementDim>(
+            "BlazorBoardExtensions.getElementDimensions",
+            LeftPanel);
+        _startSize = leftDims.Width;
+        var contDims = await JSRuntime.InvokeAsync<ElementDim>(
+            "BlazorBoardExtensions.getElementDimensions",
+            Container);
+        _containerSize = contDims.Width;
+    }
+
+    private void OnSizing(double delta)
+    {
+        var newLeftSize = _startSize + delta;
+        var newRightSize = _containerSize - newLeftSize - 6;
+        if (newLeftSize < 50 || newRightSize < 50) return;
+        _leftWidth = $"{newLeftSize}px";
+        _rightWidth = $"{newRightSize}px";
+    }
+}

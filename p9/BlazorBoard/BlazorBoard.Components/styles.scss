@@ -1,0 +1,40 @@
+﻿.splitter-control {
+    display: flex;
+    flex-shrink: 0;
+    background-color: var(--splitter-background-color);
+
+    &.horizontal {
+        flex-direction: row;
+        width: var(--splitter-size);
+        height: 100%;
+    }
+
+    &.cursor-horizontal {
+        cursor: ew-resize;
+    }
+
+    &.vertical {
+        flex-direction: column;
+        height: var(--splitter-size);
+    }
+
+    &.cursor-vertical {
+        cursor: ns-resize;
+    }
+
+    & .handle {
+        justify-content: center;
+        align-self: center;
+        background-color: var(--splitter-handle-background-color);
+
+        &.handle-horizontal {
+            width: var(--splitter-size);
+            height: var(--splitter-handle-size);
+        }
+
+        &.handle-vertical {
+            height: var(--splitter-size);
+            width: var(--splitter-handle-size);
+        }
+    }
+}

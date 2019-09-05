@@ -26,7 +26,7 @@
     bool _dragMode;
     double _capturedPosition;
 
-    private async Task OnPointerDown(UIPointerEventArgs e)
+    private async Task OnPointerDown(PointerEventArgs e)
     {
         if (_dragMode || e.Button != 0) return;
 
@@ -39,7 +39,7 @@
 
     }
 
-    private async Task OnPointerMove(UIPointerEventArgs e)
+    private async Task OnPointerMove(PointerEventArgs e)
     {
         if (!_dragMode) return;
 
@@ -47,7 +47,7 @@
         await Sizing.InvokeAsync(movement);
     }
 
-    private async Task OnPointerUp(UIPointerEventArgs e)
+    private async Task OnPointerUp(PointerEventArgs e)
     {
         _dragMode = false;
         await JSRuntime.InvokeAsync<bool>(

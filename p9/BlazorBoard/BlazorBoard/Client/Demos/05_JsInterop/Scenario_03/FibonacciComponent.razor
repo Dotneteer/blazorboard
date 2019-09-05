@@ -1,0 +1,28 @@
+﻿@inject IJSRuntime JSRuntime
+
+<h3>@_sequence</h3>
+<button @onclick="OnClickAsync">Display Fibonacci Sequence</button>
+@code {
+    private string _sequence = "Placeholder for sequence";
+
+    private async Task OnClickAsync()
+    {
+        _sequence = await JSRuntime.InvokeAsync<string>(
+            "BlazorBoardExtensions.getFibonacci", 10);
+    }
+
+    [JSInvokable]
+    public static Task<List<int>> GetFiboAsync(int count)
+    {
+        var result = new List<int> { 0 };
+        if (count > 1)
+        {
+            result.Add(1);
+            for (var i = 2; i < count; i++)
+            {
+                result.Add(result[i - 2] + result[i - 1]);
+            }
+        }
+        return Task.FromResult(result);
+    }
+}

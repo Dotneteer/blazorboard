@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <LangVersion>7.3</LangVersion>
+    <RazorLangVersion>3.0</RazorLangVersion>
+    <AssemblyName>Dotneteer.BlazorBoard.Client</AssemblyName>
+    <RootNamespace>Dotneteer.BlazorBoard.Client</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.0.0-preview9.19424.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="3.0.0-preview9.19424.4" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.HttpClient" Version="3.0.0-preview9.19424.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.DevServer" Version="3.0.0-preview9.19424.4" PrivateAssets="all" />
+    <PackageReference Include="Radzen.Blazor" Version="0.0.69" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\BlazorBoard.Components\BlazorBoard.Components.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="for /r $(ProjectDir)..\Server\wwwroot\demos %25%25i in (*.*) do del &quot;%25%25i&quot;&#xD;&#xA;&#xD;&#xA;xcopy $(ProjectDir)Demos\*.razor $(ProjectDir)..\Server\wwwroot\demos /S /Y&#xD;&#xA;xcopy $(ProjectDir)Demos\*.css $(ProjectDir)..\Server\wwwroot\demos /S /Y&#xD;&#xA;xcopy $(ProjectDir)Demos\*.cs $(ProjectDir)..\Server\wwwroot\demos /S /Y&#xD;&#xA;xcopy $(ProjectDir)Demos\*.txt $(ProjectDir)..\Server\wwwroot\demos /S /Y&#xD;&#xA;&#xD;&#xA;for /r $(ProjectDir)..\Server\wwwroot\demos %25%25i in (*.razor) do ren &quot;%25%25i&quot; *.razor.txt&#xD;&#xA;for /r $(ProjectDir)..\Server\wwwroot\demos %25%25i in (*.css) do ren &quot;%25%25i&quot; *.css.txt&#xD;&#xA;for /r $(ProjectDir)..\Server\wwwroot\demos %25%25i in (*.cs) do ren &quot;%25%25i&quot; *.cs.txt&#xD;&#xA;&#xD;&#xA;" />
+  </Target>
+
+</Project>

@@ -1,0 +1,12 @@
+﻿@inject IJSRuntime JSRuntime
+
+<h3>Alert Component</h3>
+<button @onclick="OnDisplayClicked">Display an alert</button>
+
+@code {
+    private async Task OnDisplayClicked()
+    {
+        await JSRuntime.InvokeAsync<object>("BlazorBoardExtensions.alert", 
+            "Hello from JSRuntime!");
+    }
+}

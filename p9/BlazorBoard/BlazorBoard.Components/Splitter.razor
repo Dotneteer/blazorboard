@@ -1,0 +1,76 @@
+﻿@inject IJSRuntime JSRuntime
+
+<div @ref="Element" class="@SplitterCss"
+    @onpointerdown="OnPointerDown"
+    @onpointermove="OnPointerMove"
+    @onpointerup="OnPointerUp"
+>
+    <div class="@HandleCss"></div>
+</div>
+
+@code {
+
+    [Parameter]
+    public bool Horizontal { get; set; }
+
+    [Parameter]
+    public bool IsMoving { get; set; }
+
+    [Parameter]
+    public EventCallback StartSizing { get; set; }
+
+    [Parameter]
+    public EventCallback<double> Sizing { get; set; }
+
+    [Parameter]
+    public EventCallback EndSizing { get; set; }
+
+    string SplitterCss;
+    string HandleCss;
+
+    ElementReference Element;
+
+    bool _dragMode;
+    double _capturedPosition;
+
+    protected override void OnParametersSet()
+    {
+        SplitterCss = new CssBuilder("splitter-control")
+                            .AddClass("horizontal", when: Horizontal)
+                            .AddClass("vertical", when: !Horizontal)
+                            .AddClass("cursor-horizontal", when: Horizontal)
+                            .AddClass("cursor-vertical", when: !Horizontal)
+                            .Build();
+
+        HandleCss = new CssBuilder("handle")
+                            .AddClass("handle-horizontal", when: Horizontal)
+                            .AddClass("handle-vertical", when: !Horizontal)
+                            .Build();
+    }
+
+    private async Task OnPointerDown(PointerEventArgs e)
+    {
+        if (_dragMode || e.Button != 0) return;
+
+        await JSRuntime.InvokeAsync<bool>("BlazorBoardExtensions.setPointerCapture", Element, e.PointerId);
+        _dragMode = true;
+        _capturedPosition = Horizontal ? e.ClientX : e.ClientY;
+        await StartSizing.InvokeAsync(null);
+
+    }
+
+    private async Task OnPointerMove(PointerEventArgs e)
+    {
+        if (!_dragMode) return;
+
+        var movement = (Horizontal ? e.ClientX : e.ClientY) - _capturedPosition;
+        await Sizing.InvokeAsync(movement);
+    }
+
+    private async Task OnPointerUp(PointerEventArgs e)
+    {
+        _dragMode = false;
+        await JSRuntime.InvokeAsync<bool>("BlazorBoardExtensions.releasePointerCapture", Element, e.PointerId);
+        await EndSizing.InvokeAsync(null);
+    }
+}

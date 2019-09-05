@@ -1,0 +1,15 @@
+﻿@inject IMessengerService Messenger
+<div class="sender-button">
+    <button class="sender-button-@(Topic.ToLower())"
+        @onclick="@(() => Messenger.SendMessage(new Message(Topic, Text)))">
+        @Text
+    </button>
+</div>
+
+@code {
+    [Parameter]
+    public string Topic { get; set; }
+
+    [Parameter]
+    public string Text { get; set; }
+}

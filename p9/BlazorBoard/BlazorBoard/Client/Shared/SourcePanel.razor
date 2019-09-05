@@ -1,0 +1,45 @@
+﻿@inherits  StateAwareComponentBase
+
+<div @ref="Element" class="source-panel-component" style="width: @Width">
+    <RadzenTabs @key="@State.SourceFiles" Change="OnTabChange">
+        <Tabs >
+            @foreach (var sourceFile in State.SourceFiles)
+            {
+                <RadzenTabsItem Text="@sourceFile.Id" Selected="@(State.SelectedSourceFileName == sourceFile.Id)">
+                    <SourceFile
+                        DemoId="@State.SelectedDemoId" 
+                        ScenarioId="@State.SelectedScenarioId"
+                        SourceFileName="@State.SelectedSourceFileName"/>
+                </RadzenTabsItem>
+            }
+        </Tabs>
+    </RadzenTabs>
+</div>
+
+@code 
+{
+    [Parameter]
+    public string Width { get; set; }
+
+    /// <summary>
+    /// The parent panel can access the native HTML element of 
+    /// this component
+    /// </summary>
+    public ElementReference Element;
+
+    /// <summary>
+    /// We need to propagate state change
+    /// </summary>
+    protected override void OnSelectedSourceFileChanged(ComboDataItem selectedSourceFile)
+    {
+        StateHasChanged();
+    }
+
+    /// <summary>
+    /// Display the source file in the current tab
+    /// </summary>
+    private void OnTabChange(int selectedTab)
+    {
+        StateService.SelectSourceFile(State.SourceFiles[selectedTab].Id);
+    }
+}

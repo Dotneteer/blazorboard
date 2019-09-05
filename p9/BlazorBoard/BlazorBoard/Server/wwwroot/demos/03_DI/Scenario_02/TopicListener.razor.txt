@@ -1,0 +1,27 @@
+﻿@inject IMessengerService Messenger
+
+<div class="topic-listener">
+    <h3>Topic: @Topic</h3>
+    <h2>@_messageText</h2>
+</div>
+
+@code {
+    [Parameter]
+    public string Topic { get; set; }
+
+    private string _messageText = "<No message received yet>";
+
+    protected override void OnParametersSet()
+    {
+        Messenger.MessageSent += OnMessageReceived;
+    }
+
+    private void OnMessageReceived(object sender, Message msg)
+    {
+        if (msg.Topic == Topic || Topic.ToLower() == "all")
+        {
+            _messageText = msg.Text;
+            StateHasChanged();
+        }
+    }
+}

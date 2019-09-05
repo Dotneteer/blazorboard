@@ -1,0 +1,21 @@
+﻿<div class="@($"title-bar {Face}")" style="@_styleSet">
+    <h3 class="@Face">@Title</h3>
+</div>
+
+@code {
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public string Face { get; set; }
+
+    [Parameter]
+    public int? Height { get; set; }
+
+    private string _styleSet;
+
+    protected override void OnParametersSet()
+    {
+        _styleSet = Height.HasValue ? $"height: {Height}px" : "";
+    }
+}

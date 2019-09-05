@@ -1,0 +1,18 @@
+﻿<TopicListener Topic="All"></TopicListener>
+<TopicListener Topic="Blazor"></TopicListener>
+<TopicListener Topic="Life"></TopicListener>
+
+<div class="message-buttons">
+    <Sender Topic="Blazor" Text="Component"></Sender>
+    <Sender Topic="Life" Text="Wisdom"></Sender>
+    <Sender Topic="Blazor" Text="Layout"></Sender>
+    <Sender Topic="Life" Text="Faith"></Sender>
+    <Sender Topic="Blazor" Text="Parameter"></Sender>
+    <Sender Topic="Life" Text="Patience"></Sender>
+    <Sender Topic="Blazor" Text="DI"></Sender>
+    <Sender Topic="Life" Text="Love"></Sender>
+</div>
+
+@code {
+
+}

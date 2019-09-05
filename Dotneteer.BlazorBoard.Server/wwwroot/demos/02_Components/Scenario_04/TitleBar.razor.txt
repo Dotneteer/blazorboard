@@ -20,7 +20,7 @@
         _styleSet = Height.HasValue ? $"height: {Height}px" : "";
     }
 
-    private void OnClicked(UIMouseEventArgs e)
+    private void OnClicked(MouseEventArgs e)
     {
         if (Face == "demo")
         {

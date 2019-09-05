@@ -1,0 +1,32 @@
+﻿<div class="hello-blazor-demo">
+    <h1>Hello, Blazor!</h1>
+    <h2>Init time: @InitTime</h2>
+    <h2>Refresh time:
+        <span class="@RefreshedCss">@RefreshTime</span>
+    </h2>
+    <Button @onclick="@(e => RefreshTime = DateTime.Now)">
+        Refresh
+    </Button>
+    <Button @onclick="@(e => RefreshTime = InitTime = DateTime.Now)">
+        Reset
+    </Button>
+</div>
+
+@code {
+    DateTime _refreshTime;
+
+    DateTime InitTime;
+    DateTime RefreshTime
+    {
+        get => _refreshTime;
+        set
+        {
+            _refreshTime = value;
+            RefreshedCss = _refreshTime == InitTime ? "" : "refreshed";
+        }
+    }
+    string RefreshedCss;
+
+    protected override void OnInitialized()
+        => RefreshTime = InitTime = DateTime.Now;
+}
